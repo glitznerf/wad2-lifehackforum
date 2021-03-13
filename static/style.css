@@ -1,0 +1,55 @@
+#banner {
+  width: 100%;
+  margin: auto;
+}
+#logo {
+  width: 80%;
+  float: left;
+  height: 100px;
+  background-color: #ffc40a;
+}
+#userspace {
+  width: 20%;
+  float: right;
+  height: 100px;
+  background-color: #f8de7e;
+  text-align: center;
+}
+#userspace a{
+  color: black;
+}
+#clear {
+  clear: both;
+}
+
+
+#menu {
+  background: #050505;
+}
+#menu ul {
+  display: flex;
+  align-items: stretch; /* Default */
+  justify-content: space-between;
+  margin: 0;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+#menu li {
+  display: block;
+  flex: 0 1 auto; /* Default */
+  list-style-type: none;
+}
+
+#menu a{
+  color: white;
+}
+
+
+#page_content {
+  text-align: center;
+}
+
+
+#footer {
+  background-color: #f8de7e;
+}
