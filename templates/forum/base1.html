@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load rango_template_tags %}
+
+
+<html>
+  <!-- Header block -->
+  <head lang="en">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <meta charset="UTF-8" />
+    <title>
+      HacksRUs -
+      {% block title_block %}
+        Life Hacks for the People
+      {% endblock %}
+  </title>
+  </head>
+
+
+  <!-- HTML Body -->
+  <body>
+
+    <!-- Home Banner & Login -->
+    <div id="banner">
+      {% block banner_block %}
+        <!-- Insert Logo Here, class=logo -->
+        <div id="logo">
+          <h1>Hello</h1>
+        </div>
+        <div id="userspace">
+          {% if user.is_authenticated %}
+            <!-- Insert Sign out / Account info here -->
+            <a href="{% url 'forum:sign_out' %}">Sign Out</a><br>
+            <a href="{% url 'forum:account_info' %}">Account Info</a>
+          {% else %}
+            <!-- Insert Sign in / Create account here -->
+            <a href="{% url 'forum:sign_in' %}">Sign In</a><br>
+            <a href="{% url 'forum:create_account' %}">Create Account</a>
+          {% endif %}
+        </div>
+      {% endblock %}
+    <div id="clear"></div>
+    </div>
+
+
+    <!-- Menu Bar -->
+    <div id="menu">
+      {% block menu_block %}
+        <ul>
+          <li><a href="{% url 'forum:home' %}">Home</a></li>
+          <!-- Working once database is done
+          {% for category in categories %}
+          <li>
+            <a href="{% url 'forum:show_category' category.slug %}">{{ category.name }}</a>
+          </li>
+          {% endfor %} -->
+          <li><a href="{% url 'forum:all_categories' %}">All Categories</a></li>
+        </ul>
+      {% endblock %}
+    </div>
+
+
+    <!-- Body/Content block -->
+    <div id="page_content">
+      {% block body_block %}
+        <!-- Leave blank for template override -->
+      {% endblock %}
+    </div>
+
+
+    <!-- Footer Bar -->
+    <div id="footer">
+      {% block footer_bar %}
+        <!-- Insert About link -->
+        <a href="{% url 'forum:about' %}">About</a>
+      {% endblock %}
+    </div>
+  </body>
+</html>
