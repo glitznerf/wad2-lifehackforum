@@ -25,16 +25,16 @@
       {% block banner_block %}
         <!-- Insert Logo Here, class=logo -->
         <div id="logo">
-          <h1>Hello</h1>
+          <h1>HACKS.R.US</h1>
         </div>
         <div id="userspace">
           {% if user.is_authenticated %}
             <!-- Insert Sign out / Account info here -->
-            <a href="{% url 'forum:sign_out' %}">Sign Out</a><br>
+            <a href="{% url 'forum:sign_out' %}">Sign Out</a><br />
             <a href="{% url 'forum:account_info' %}">Account Info</a>
           {% else %}
             <!-- Insert Sign in / Create account here -->
-            <a href="{% url 'forum:sign_in' %}">Sign In</a><br>
+            <a href="{% url 'forum:sign_in' %}">Sign In</a><br />
             <a href="{% url 'forum:create_account' %}">Create Account</a>
           {% endif %}
         </div>
