@@ -78,7 +78,7 @@ def hack(request):
 	
 #@login_required
 def add_hack(request):
-		'''
+	'''
 	form = HackForm()
 	if request.method == 'POST':
 		form = HackForm(request.POST)
@@ -90,7 +90,6 @@ def add_hack(request):
 			print(form.errors)
 	return render(request, 'rango/add_hack.html', {'form': form})
 	'''
-	
 	context_dict = {}
 	response = render(request, 'forum/add_hack.html', context=context_dict)
 	return response
@@ -124,7 +123,7 @@ def account_info(request):
 	return response
 	
 def create_account(request):
-'''
+	'''
 	 # True when registration succeeds.
 	 registered = False
 	 
