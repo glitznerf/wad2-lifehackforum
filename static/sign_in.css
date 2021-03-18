@@ -1,0 +1,46 @@
+/* General page adjustments such as font */
+html {
+    font-family: sans-serif;
+  }
+
+#page_content {
+
+    text-align: center;
+    margin: 15px 400px 15px;
+    padding: 1px 0px 1px;
+}  
+
+input[type=text], input[type=password]{
+    border: 5px solid rgb(136, 136, 136);
+    border-radius: 4px;
+    border-width: medium;
+    border-style: solid;
+    height: 2em;
+  }
+
+input[type=text]:focus, input[type=password]:focus{
+    border: 7px solid #555;
+    border-radius: 4px;
+    border-width: medium;
+    border-style: solid;
+    
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #8ab9f1;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type=submit]:hover {
+    background-color: #6b91c0;
+}
+
+input[type=text]:hover, input[type=password]:hover{
+    background-color: rgba(236, 236, 236, 0.904);
+}

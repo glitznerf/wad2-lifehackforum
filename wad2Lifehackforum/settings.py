@@ -70,8 +70,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
+            }
         },
-    },
+    
 ]
 
 WSGI_APPLICATION = 'wad2Lifehackforum.wsgi.application'
@@ -128,8 +130,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-'''
+
 STATICFILES_DIRS = [STATIC_DIR, ]
 
 LOGIN_URL = 'rango:login'
-'''

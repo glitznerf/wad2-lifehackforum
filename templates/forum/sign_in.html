@@ -1,0 +1,39 @@
+{% extends 'forum/base1.html' %}
+{% load staticfiles %}
+
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'sign_in.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+{% endblock %}
+
+{% block title_block %}
+  Sign in
+{% endblock %}
+
+
+{% block body_block %}
+      <div id=sign_in_box>
+      <h1>Sign in to Hacks.R.Us</h1>
+
+      <form id="login_form" method="post" action="{% url 'forum:sign_in'  %}">
+          {% csrf_token %}
+
+          <label for="userame"><b>Username</b></label>
+          <input type="text" name="username" value="" size="50"/>
+          
+          <br />
+          <br />
+
+          <label for="password"><b>Password</b></label>
+          <input type="password" name="password" value="" size="50"/>
+          
+          <br />
+          <br />
+
+          <input type="submit" value="Log in" />
+          
+
+          </form>
+      </form>
+      </div>
+{% endblock %}

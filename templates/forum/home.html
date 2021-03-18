@@ -1,6 +1,9 @@
-
 {% extends 'forum/base1.html' %}
 {% load staticfiles %}
+
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+{% endblock %}
 
 {% block title_block %}
   Homepage

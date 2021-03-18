@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-{% load rango_template_tags %}
 
 
 <html>
   <!-- Header block -->
   <head lang="en">
+    {% block css_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    {% endblock %}
     <meta charset="UTF-8" />
     <title>
       HacksRUs -
