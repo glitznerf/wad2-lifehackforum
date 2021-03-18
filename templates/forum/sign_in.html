@@ -2,8 +2,7 @@
 {% load staticfiles %}
 
 {% block css_block %}
-<link rel="stylesheet" type="text/css" href="{% static 'sign_in.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'sign_in.css' %}">
 {% endblock %}
 
 {% block title_block %}
@@ -20,20 +19,19 @@
 
           <label for="userame"><b>Username</b></label>
           <input type="text" name="username" value="" size="50"/>
-          
+
           <br />
           <br />
 
           <label for="password"><b>Password</b></label>
           <input type="password" name="password" value="" size="50"/>
-          
+
           <br />
           <br />
 
           <input type="submit" value="Log in" />
-          
+
 
           </form>
-      </form>
       </div>
 {% endblock %}
