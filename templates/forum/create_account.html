@@ -1,0 +1,34 @@
+{% extends 'forum/base2.html' %}
+{% load staticfiles %}
+
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'sign_in.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+{% endblock %}
+
+{% block title_block %}
+    Create an account
+{% endblock %}  
+
+{% block body_block %}
+    <h1>Create an account</h1>
+
+    {% if registered %}
+      <strong>Thank you for registering!</strong>
+
+        <a href="{% url 'forum:home' %}">Return to the homepage.</a><br/>
+    {% else %}
+
+        <strong>Register here:</strong><br/>
+        <form id="user_form" method="post" action="{% url 'forum:create_account' %}" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        Already have an account?
+        <a href="{% url 'forum:sign_in' %}">Sign In</a><br />
+    {% endif %}
+{% endblock %}

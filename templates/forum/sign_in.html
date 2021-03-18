@@ -1,9 +1,9 @@
-{% extends 'forum/base1.html' %}
+{% extends 'forum/base2.html' %}
 {% load staticfiles %}
 
 {% block css_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'sign_in.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
 {% endblock %}
 
 {% block title_block %}
@@ -35,5 +35,7 @@
 
           </form>
       </form>
+      New to Hacks.R.Us?
+      <a href="{% url 'forum:create_account' %}">Create an account</a>
       </div>
 {% endblock %}

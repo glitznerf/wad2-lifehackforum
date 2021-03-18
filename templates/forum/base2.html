@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+
+<html>
+  <!-- Header block -->
+  <head lang="en">
+    {% block css_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+    {% endblock %}
+    <meta charset="UTF-8" />
+    <title>
+      HacksRUs -
+      {% block title_block %}
+        Life Hacks for the People
+      {% endblock %}
+  </title>
+  </head>
+
+
+  <!-- HTML Body -->
+  <body>
+
+    <!-- Home Banner & Login -->
+    <div id="banner">
+      {% block banner_block %}
+        <!-- Insert Logo Here, class=logo -->
+        <div id="logo">
+          <h1>HACKS.R.US</h1>
+        </div>
+      {% endblock %}
+    <div id="clear"></div>
+    </div>
+
+
+    <!-- Body/Content block -->
+    <div id="page_content">
+      {% block body_block %}
+        <!-- Leave blank for template override -->
+      {% endblock %}
+    </div>
+
+
+    <!-- Footer Bar -->
+    <div id="footer">
+      {% block footer_bar %}
+        <!-- Insert About link -->
+        <a href="{% url 'forum:about' %}">About</a>
+      {% endblock %}
+    </div>
+  </body>
+</html>
