@@ -1,6 +1,10 @@
 {% extends 'forum/base1.html' %}
 {% load staticfiles %}
 
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+{% endblock %}
+
 {% block title_block %}
   Homepage
 {% endblock %}
@@ -10,19 +14,27 @@
     <h1>Top 3 Hacks of the Week</h1>
   </div>
 
-  <div id="hack_carousel">
-    <div id="top1">
-      <img src="{% static 'images/rango.jpg' %}" alt="Top 1 Hack" />
-      <a href="{% url 'forum:home' %}">Washing your Dog</a>
-    </div>
-    <div id="top2">
-      <img src="{% static 'images/rango.jpg' %}" alt="Top 2 Hack" />
-      <a href="{% url 'forum:home' %}">Acing Productivity</a>
-    </div>
-    <div id="top3">
-      <img src="{% static 'images/rango.jpg' %}" alt="Top 3 Hack"  />
-      <a href="{% url 'forum:home' %}">Eating a Pencil</a>
-    </div>
-  </div>
-<div id="clear"></div>
+  <div class="hack_carousel">
+
+    <a href="{% url 'forum:home' %}">
+    <!--  <div id="top1">-->
+        <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 1 Hack" />
+        <div class="top_hack" style="left: 16.665%">Washing your Dog</div>
+    <!--  </div>-->
+    </a>
+
+    <a href="{% url 'forum:home' %}">
+        <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 2 Hack" />
+        <div class="top_hack" style="left: 50%">Acing Productivity</div>
+    </a>
+
+    <a href="{% url 'forum:home' %}">
+      <!--  <div id="top3">-->
+        <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 3 Hack"  />
+        <div class="top_hack" style="left: 83.325%">Eating a Pencil</div>
+      <!--  </div>-->
+    </a>
+
+  <!--</div>-->
+  <div id="clear"></div>
 {% endblock %}
