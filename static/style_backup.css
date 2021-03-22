@@ -69,6 +69,78 @@ html {
   margin-top: 2%;
 }
 
+#content_h {
+  background-color: #8ab9f1;
+  text-align: center;
+  margin: 15px 400px 15px;
+  padding: 1px 0px 1px;
+}
+
+#hack_carousel {
+  text-align: center;
+  height: 300px;
+}
+
+#top1 img{
+  top: 40%;
+  position: absolute;
+  left: 10%;
+}
+#top1 p{
+  top: 52%;
+  position: absolute;
+  left: 13%;
+}
+#top2 img{
+  top: 40%;
+  position: absolute;
+  left: 40%;
+}
+#top2 p{
+  top: 52%;
+  position: absolute;
+  left: 43%;
+}
+#top3 img{
+  top: 40%;
+  position: absolute;
+  left: 70%;
+}
+#top3 p{
+  top: 52%;
+  position: absolute;
+  left: 75%;
+}
+
+#hack_carousel img{
+  max-width: 20%;
+  opacity: 0.6;
+}
+
+#hack_carousel a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 23px;
+}
+
+img {
+  display: inline-block;
+  width: 33%
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 /* Footer */
 #footer {
