@@ -15,15 +15,15 @@ def home(request):
 	#context_dict['hacks'] = hackList
 	response = render(request, 'forum/home.html', context=context_dict)
 	return response
-	
+
 	#return HttpResponse("Rango says hey there partner")
-	
+
 def about(request):
 	#???????????????????#
 	context_dict = {}
 	return render(request, 'forum/about.html', context=context_dict)
 
-#@verified_required	
+#@verified_required
 def create_category(request):
 	'''
 	form = CategoryForm()
@@ -36,11 +36,11 @@ def create_category(request):
 			print(form.errors)
 	return render(request, 'rango/add_category.html', {'form': form})
 	'''
-	
+
 	context_dict = {}
 	response = render(request, 'forum/create_category.html', context=context_dict)
 	return response
-	
+
 def category(request):
 	'''
 	context_dict = {}
@@ -49,7 +49,7 @@ def category(request):
 		hacks = Hack.objects.filter(categoryName=category)
 		context_dict['hacks'] = hacks
 		context_dict['category'] = category
-		
+
 	except Category.DoesNotExist:
 		context_dict['category'] = None
 		context_dict['pages'] = None
@@ -66,16 +66,16 @@ def hack(request):
 		hack = Hack.objects.get(slug = hack_hackName_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
 		context_dict['hack'] = hack
-		
+
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)
 	'''
-	
+
 	context_dict = {}
 	response = render(request, 'forum/hack.html', context=context_dict)
 	return response
-	
+
 #@login_required
 def add_hack(request):
 	'''
@@ -99,7 +99,7 @@ def all_categories(request):
 	'''
 	context_dict = {}
 	category_list = Category.objects.order_by('-categoryName')
-	context_dict['categries'] = category_list
+	context_dict['categories'] = category_list
 	response = render(request, 'forum/all_categories.html', context=context_dict)
 	return response
 	'''
@@ -109,7 +109,7 @@ def all_categories(request):
 
 #@login_required
 def account_info(request):
-	
+
 	'''
 	context_dict = {}
 	user_id = UserAccount.objects.get(slug=userAccount_userName_slug)
@@ -117,16 +117,16 @@ def account_info(request):
 	context_dict['user'] = user_id
 	context_dict['hacks'] = hack_list
 	'''
-	
+
 	context_dict = {}
 	response = render(request, 'forum/account_info.html', context=context_dict)
 	return response
-	
+
 def create_account(request):
 	'''
 	 # True when registration succeeds.
 	 registered = False
-	 
+
 	 if request.method == 'POST':
 
 		reg_form = RegForm(requets.POST)
@@ -145,11 +145,11 @@ def create_account(request):
 	 else:
 		#re render blank form
 		 reg_form = RegForm()
-		 
+
 	 # Render the template depending on the context.
 	 return render(request, 'forum/register.html', context = {'reg_form': reg_form,'registered': registered})
 	'''
-	
+
 	context_dict = {}
 	response = render(request, 'forum/create_account.html', context=context_dict)
 	return response
@@ -161,9 +161,9 @@ def sign_in(request):
 		# Get username & password from the login form.
 		username = request.POST.get('username')
 		password = request.POST.get('password')
-		
+
 		user = authenticate(username=username, password=password)
-		
+
 		if user: #test user returned
 			if user.is_active: #test not disabled
 				login(request, user) #send login
@@ -183,7 +183,7 @@ def sign_in(request):
 	context_dict = {}
 	response = render(request, 'forum/sign_in.html', context=context_dict)
 	return response
-	
+
 '''
 @login_required
 def user_logout(request):
@@ -191,4 +191,3 @@ def user_logout(request):
 	#user back to the home.
 	return redirect(reverse('forum:home'))
 '''
-

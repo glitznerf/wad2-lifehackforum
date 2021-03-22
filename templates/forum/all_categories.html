@@ -14,4 +14,26 @@
     <h1>All Categories</h1>
   </div>
 
+  <ul>
+    {% if categories %}
+      {% for c in categories %}
+        <a href="{% url 'forum:show_category' c.slug %}">
+          <div class="category_entry">
+            <li>
+              {{ c.name }} <br />
+              {{ c.description }}
+            </li>
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <a href="/">
+        <div class="category_entry">
+          <li><strong><h2>There are no categories present.</h2></strong> <br /> Description...</li>
+        </div>
+      </a>
+    {% endif %}
+  </ul>
+
+
 {% endblock %}
