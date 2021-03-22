@@ -20,7 +20,7 @@
         <a href="{% url 'forum:show_category' c.slug %}">
           <div class="category_entry">
             <li>
-              {{ c.name }} <br />
+              <h2>{{ c.name }}</h2> <br />
               {{ c.description }}
             </li>
           </div>
@@ -29,7 +29,10 @@
     {% else %}
       <a href="/">
         <div class="category_entry">
-          <li><strong><h2>There are no categories present.</h2></strong> <br /> Description...</li>
+          <li>
+            <strong><h2>There are no categories present.</h2></strong> <br />
+            Description...
+          </li>
         </div>
       </a>
     {% endif %}
