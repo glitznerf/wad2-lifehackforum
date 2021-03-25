@@ -17,10 +17,10 @@
   <ul>
     {% if categories %}
       {% for c in categories %}
-        <a href="{% url 'forum:show_category' c.slug %}">
+        <a href="{% url 'forum:category' c.slug %}">
           <div class="category_entry">
             <li>
-              <h2>{{ c.name }}</h2> <br />
+              <h2>{{ c.categoryName }}</h2> <br />
               {{ c.description }}
             </li>
           </div>
@@ -38,5 +38,8 @@
     {% endif %}
   </ul>
 
+  {% if user.is_verified %}
+    <a href="{% url 'forum:create_category' %}">Add Category</a> <br />
+  {% endif %}
 
 {% endblock %}

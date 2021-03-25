@@ -16,22 +16,22 @@
 
   <div class="hack_carousel">
 
-    <a href="{% url 'forum:home' %}">
+    <a href="{% url 'forum:hack' hackList[0].hackID %}">
     <!--  <div id="top1">-->
         <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 1 Hack" />
-        <div class="top_hack" style="left: 16.665%">Washing your Dog</div>
+        <div class="top_hack" style="left: 16.665%">{{ hackList[0].name }}</div>
     <!--  </div>-->
     </a>
 
-    <a href="{% url 'forum:home' %}">
+    <a href="{% url 'forum:hack' hackList[1].hackID %}">
         <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 2 Hack" />
-        <div class="top_hack" style="left: 50%">Acing Productivity</div>
+        <div class="top_hack" style="left: 50%">{{ hackList[1].name }}</div>
     </a>
 
-    <a href="{% url 'forum:home' %}">
+    <a href="{% url 'forum:hack' hackList[2].hackID %}">
       <!--  <div id="top3">-->
         <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 3 Hack"  />
-        <div class="top_hack" style="left: 83.325%">Eating a Pencil</div>
+        <div class="top_hack" style="left: 83.325%">{{ hackList[2].name }}</div>
       <!--  </div>-->
     </a>
 
