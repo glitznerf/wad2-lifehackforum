@@ -1,0 +1,25 @@
+#content_h {
+  background-color: #8ab9f1;
+  text-align: center;
+  margin: 15px 400px 15px;
+  padding: 1px 0px 1px;
+}
+
+.category_entry {
+  width: 96%;
+  height: 120px;
+  border-style: solid;
+  border-width: thick;
+  border-color: #8ab9f1;
+  margin-bottom: 10px;
+  background-color: rgba(236, 236, 236, 0.904);
+}
+
+a{
+  color: black;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}

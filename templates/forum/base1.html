@@ -25,9 +25,11 @@
     <div id="banner">
       {% block banner_block %}
         <!-- Insert Logo Here, class=logo -->
+        <a href="/">
         <div id="logo">
           <h1>HACKS.R.US</h1>
         </div>
+      </a>
         <div id="userspace">
           {% if user.is_authenticated %}
             <!-- Insert Sign out / Account info here -->

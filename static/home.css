@@ -1,0 +1,29 @@
+#content_h {
+  background-color: #8ab9f1;
+  text-align: center;
+  margin: 15px 400px 15px;
+  padding: 1px 0px 1px;
+}
+
+.hack_carousel {
+  position: relative;
+}
+
+img{
+  display: inline-block;
+  width: 32.8%;
+  opacity: 0.6;
+}
+
+.hack_carousel a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 23px;
+}
+
+.top_hack {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

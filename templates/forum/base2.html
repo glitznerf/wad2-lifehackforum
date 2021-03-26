@@ -5,8 +5,8 @@
 <html>
   <!-- Header block -->
   <head lang="en">
-    {% block css_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+    {% block css_block %}
     {% endblock %}
     <meta charset="UTF-8" />
     <title>
@@ -25,9 +25,11 @@
     <div id="banner">
       {% block banner_block %}
         <!-- Insert Logo Here, class=logo -->
+        <a href="/">
         <div id="logo">
           <h1>HACKS.R.US</h1>
         </div>
+      </a>
       {% endblock %}
     <div id="clear"></div>
     </div>

@@ -1,0 +1,45 @@
+{% extends 'forum/base1.html' %}
+{% load staticfiles %}
+
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'all_categories.css' %}">
+{% endblock %}
+
+{% block title_block %}
+  All Categories
+{% endblock %}
+
+{% block body_block %}
+  <div id="content_h">
+    <h1>All Categories</h1>
+  </div>
+
+  <ul>
+    {% if categories %}
+      {% for c in categories %}
+        <a href="{% url 'forum:category' c.slug %}">
+          <div class="category_entry">
+            <li>
+              <h2>{{ c.categoryName }}</h2> <br />
+              {{ c.description }}
+            </li>
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <a href="/">
+        <div class="category_entry">
+          <li>
+            <strong><h2>There are no categories present.</h2></strong> <br />
+            Description...
+          </li>
+        </div>
+      </a>
+    {% endif %}
+  </ul>
+
+  {% if user.is_verified %}
+    <a href="{% url 'forum:create_category' %}">Add Category</a> <br />
+  {% endif %}
+
+{% endblock %}
