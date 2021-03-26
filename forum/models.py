@@ -1,56 +1,69 @@
 from django.db import models
+from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
+
 """
 made all primary keys explicet for clarity
 
-changes made from ER diagram in design specs doc:
-all instances of UserID have been replaced with username as we decided to have userName be unique.
+UserAccount implement the django user model
 
-Users model no longer has NumVotes as this was origonally goint to be used to keep track of
-the number of likes a user had to check for verrified status but now we are planning to just 
-query the database for total likes when the user applies for verifyed status.
+category, hack and comment all store the user that created them rather than 
+just the username, this will have to be aquired in either forms.py or views.py
 
-in the Hack model "CategoryID" has been changed to categoryName
+need to add an optional image field to Hack at some point but need to
+ mess about with the media root etc to do that 
 
 """
-def getNoUsernameText():
-	return "!!!No Username!!!"
 
-	
-	
+
+def getNoUsernameText():
+    return "!!!No Username!!!"
+
+
 class UserAccount(models.Model):
-	userName = models.CharField(max_length=30, unique=True, primary_key=True)
-	password = models.CharField(max_length=30)
-	email = models.EmailField()
-	verified = models.BooleanField(default=False)
-	def __str__(self):
-		return self.userName
-		
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    verified = models.BooleanField(default=False)
+    def __str__(self):
+        return self.user.username
+
+
 class Category(models.Model):
-	categoryName = models.CharField(max_length=20, unique=True, primary_key=True)
-	userName = models.ForeignKey(UserAccount, on_delete=models.SET(getNoUsernameText))
-	description = models.CharField(max_length=55)
-	class Meta:
-		verbose_name_plural = 'Categories'
-	def __str__(self):
-		return self.categoryName
-		
+    categoryName = models.CharField(max_length=20, unique=True, primary_key=True)
+    user = models.ForeignKey(UserAccount, null=True, on_delete=models.SET_NULL)
+    description = models.CharField(max_length=55)
+    slug = models.SlugField(unique=True)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.categoryName)
+        super(Category, self).save(*args, **kwargs)
+    class Meta:
+        verbose_name_plural = 'Categories'
+    def __str__(self):
+        return self.categoryName
+
+
 class Hack(models.Model):
-	hackID = models.AutoField(primary_key=True)
-	name = models.CharField(max_length=30)
-	description = models.CharField(max_length=500)
-	shortDescription = models.CharField(max_length=55)
-	likes = models.IntegerField(default=0)
-	userName = models.ForeignKey(UserAccount, on_delete=models.SET(getNoUsernameText))
-	categoryName = models.ForeignKey(Category, on_delete=models.CASCADE)
-	dateTimeCreated = models.DateTimeField()
-	def __str__(self):
-		return self.hackID
+    hackID = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    description = models.CharField(max_length=500)
+    shortDescription = models.CharField(max_length=55)
+    likes = models.IntegerField(default=0)
+    user = models.ForeignKey(UserAccount, null=True, on_delete=models.SET_NULL)
+    categoryName = models.ForeignKey(Category, on_delete=models.CASCADE)
+    dateTimeCreated = models.DateTimeField(auto_now_add = True)
+    slug = models.SlugField(unique=True)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.categoryName)
+        super(Category, self).save(*args, **kwargs)
+    def __str__(self):
+        return self.hackID
+
 
 class Comment(models.Model):
-	commentID = models.AutoField(primary_key=True)
-	hackID = models.ForeignKey(Hack, on_delete=models.CASCADE)
-	userName = models.ForeignKey(UserAccount, on_delete=models.SET(getNoUsernameText))
-	text = models.CharField(max_length=255)
-	dateTimeCreated = models.DateTimeField()
-	def __str__(self):
-		return self.commentID
+    commentID = models.AutoField(primary_key=True)
+    hackID = models.ForeignKey(Hack, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserAccount, null=True, on_delete=models.SET_NULL)
+    text = models.CharField(max_length=255)
+    dateTimeCreated = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self):
+        return self.commentID
