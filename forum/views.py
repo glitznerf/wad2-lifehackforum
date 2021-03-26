@@ -9,11 +9,10 @@ from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, Categ
 
 def home(request):
 	#for top 3 of week - returns list of length 3 in order
-	#hackList = Hack.objects.order_by.['-likes'][:3]
-
-
+	hackList = Hack.objects.order_by('-likes')[:3]
 	context_dict = {}
-	#context_dict['hacks'] = hackList
+	
+	context_dict['hacks'] = hackList
 	response = render(request, 'forum/home.html', context=context_dict)
 	return response
 	
@@ -90,7 +89,7 @@ def all_categories(request):
 	return response
 
 
-@login_required
+#@login_required
 def account_info(request):
 
 	context_dict = {}
@@ -146,7 +145,7 @@ def sign_in(request):
 		return render(request, 'forum/sign_in.html')
 
 
-@login_required
+#@login_required
 def sign_out(request):
 	logout(request)
 	#user back to the home.
