@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block css_block %}
-<link rel="stylesheet" type="text/css" href="{% static 'all_categories.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'hack.css' %}">
 {% endblock %}
 
 {% block title_block %}
@@ -15,12 +15,56 @@
 
 {% block body_block %}
   {% if hack %}
-    <div id="content_h">
-      <h1>{{ hack.name }}</h1>
+    <div id="category">
+      <h1>{{ hack.categoryName }}</h1>
+    </div>
+
+    <div id="hackBody">
+      <div id="hack">
+        <h1>{{ hack.name }}</h1>
+      </div>
+
+      {% if hack.user.verified %}
+        <div id="verified">
+          Verified
+        </div>
+      {% endif %}
+
+      <div id="stars">
+        <!-- NEEED TO EDIT IMAG ELINK!! -->
+        <img id="star" src="{% static 'images/rango.jpg' %}" alt="Star" />
+        <p>{{ hack.likes }}</p>
+      </div>
+
+      {% if hack.image %}
+        <!-- NEEED TO EDIT IMAGE LINK!! -->
+        <img id="img" src="{% static 'images/rango.jpg' %}" alt="Hack image" />
+      {% endif %}
+
+      <div id="desc">
+        <p>{{ hack.description }}</p>
+      </div>
+
+      {% if comments %}
+        <div id="comments">
+          <ul>
+            {% for comment in comments %}
+              <div class="comment_entry">
+                <li>
+                  <i>{{ comment.user }}</i>: {{ comment.text }}
+                </li>
+              </div>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
     </div>
 
 
+
+
   {% else %}
-  The specified hack does not exist.
+    The specified hack does not exist.
   {% endif %}
 {% endblock %}
