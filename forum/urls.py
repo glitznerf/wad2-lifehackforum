@@ -10,7 +10,7 @@ path('about/', views.about, name = 'about'),
 #account pages
 path('create_account/' ,views.create_account, name = 'create_account'),
 path('sign_in/' ,views.sign_in, name = 'sign_in'),
-path('<slug:user_id_slug>/',views.account_info, name='account_info'),
+path('account_info/<slug:user_id_slug>/',views.account_info, name='account_info'),
 
 #category pages
 path('all_categories/<slug:category_categoryName_slug>/', views.category, name = 'category'),
