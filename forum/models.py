@@ -55,7 +55,7 @@ class Hack(models.Model):
         self.slug = slugify(self.name)
         super(Hack, self).save(*args, **kwargs)
     def __str__(self):
-        return self.hackID
+        return str(self.hackID)
 
 
 class Comment(models.Model):
