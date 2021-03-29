@@ -71,7 +71,7 @@ def hack(request, category_categoryName_slug, hack_hack_slug):
 	
 	
 	
-#@login_required
+@login_required
 def add_hack(request, category_categoryName_slug):
 	form = HackForm(request.user)
 	if request.method == 'POST':
@@ -99,16 +99,20 @@ def all_categories(request):
 	return response
 
 
-#@login_required
-def account_info(request):
-
+@login_required
+def account_info(request, user_id_slug):
 	context_dict = {}
-	user_id = UserAccount.objects.get(slug=userAccount_userName_slug)
-	hack_list = Hack.objects.filter(userName = user_id)
+	user_id =request.user.get_username()
+	users = User.objects.filter(username=user_id)
+	
+	hack_list = Hack.objects.filter(name = user_id)
 	context_dict['user'] = user_id
 	context_dict['hacks'] = hack_list
+	
+	response = render(request, 'forum/account_info.html', context=context_dict)
+	return response
 
-#@login_required
+@login_required
 def create_account(request):
 	registered = False
 	if request.method == 'POST':
@@ -155,7 +159,7 @@ def sign_in(request):
 		return render(request, 'forum/sign_in.html')
 
 
-#@login_required
+@login_required
 def sign_out(request):
 	logout(request)
 	#user back to the home.
