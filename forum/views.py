@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from forum.models import UserAccount, Category, Hack, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CategoryForm
+from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CommentForm
 
 
 def home(request):
@@ -26,6 +27,8 @@ def about(request):
 
 @login_required
 def create_category(request):
+
+
 	form = CategoryForm(request.user)
 	userID =request.user.get_username()
 	users = User.objects.filter(username=userID)
@@ -36,7 +39,7 @@ def create_category(request):
 			form = CategoryForm(request.user, request.POST)
 			if form.is_valid():
 				form.save(commit=True)
-				return redirect('/forum/')
+				return redirect('/forum/all_categories')
 			else:
 				print(form.errors)
 		return render(request, 'forum/create_category.html', {'form': form})
@@ -182,11 +185,13 @@ def sign_out(request):
 #add comment list to hack
 #urls need fixes uh ohs
 #add context dicts to forms
+#incorrectness for categories form
 #test add comment
 #back end for request verification
 #search bar api needs implemented
 #sort redirects
 	#-back in breadcrumb proably
+#appologise to frederik for home	
 #http responses to an error page?? - requires template
 #about form needs a plan
 #testing generally, could be done by anyone if needed

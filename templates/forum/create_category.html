@@ -14,9 +14,10 @@
       <div id=sign_in_box>
       <h1>Create a New Hacks.R.Us Category</h1>
 
+
       <form id="create_category_form" method="post" action="{% url 'forum:create_category'  %}">
           {% csrf_token %}
-
+		
           <label for="categoryName"><b>Category Name: </b></label>
           <input type="text" name="categoryName" value="" size="50"/>
 
@@ -28,7 +29,8 @@
 
           <br />
           <br />
-
+		  
+		 
           <input type="submit" value="Submit" />
 
 

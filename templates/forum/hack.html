@@ -59,8 +59,19 @@
         </div>
       {% endif %}
 
-      <li><a href="{% url 'forum:add_comment' %}">Add Comment</a></li>
 
+	{% if user.is_authenticated %}
+		<form id="add_comment" method="post" action="{% url 'forum:add_comment'  %}">
+          {% csrf_token %}
+		
+          <label for="text"><b>Type here: </b></label>
+          <input type="text" name="text" value="" size="255"/>
+
+          <input type="submit" value="Submit" />
+
+      </form>
+	  
+	  {% endif %}
     </div>
 
 
