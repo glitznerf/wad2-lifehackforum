@@ -56,13 +56,14 @@ def category(request, category_categoryName_slug):
 		context_dict['pages'] = None
 	return render(request, 'forum/category.html', context=context_dict)	
 
-def hack(request, category_categoryName_slug):
+def hack(request, category_categoryName_slug, hack_hack_slug):
 	
 	context_dict = {}
 	try:
-		hack = Hack.objects.get(slug = hack_hackName_slug)
+		hack = Hack.objects.get(slug = hack_hack_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
 		context_dict['hack'] = hack
+		context_dict['comments'] = comment_list
 		
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
@@ -70,7 +71,7 @@ def hack(request, category_categoryName_slug):
 	
 	
 	
-#@login_required
+@login_required
 def add_hack(request, category_categoryName_slug):
 	form = HackForm(request.user)
 	if request.method == 'POST':
@@ -92,22 +93,26 @@ def all_categories(request):
 	#search bar not included
 	context_dict = {}
 	category_list = Category.objects.order_by('-categoryName')
-	context_dict['categries'] = category_list
+	context_dict['categories'] = category_list
 	context_dict['verified'] = verified
 	response = render(request, 'forum/all_categories.html', context=context_dict)
 	return response
 
 
-#@login_required
-def account_info(request):
-
+@login_required
+def account_info(request, user_id_slug):
 	context_dict = {}
-	user_id = UserAccount.objects.get(slug=userAccount_userName_slug)
-	hack_list = Hack.objects.filter(userName = user_id)
+	user_id =request.user.get_username()
+	users = User.objects.filter(username=user_id)
+	
+	hack_list = Hack.objects.filter(name = user_id)
 	context_dict['user'] = user_id
 	context_dict['hacks'] = hack_list
+	
+	response = render(request, 'forum/account_info.html', context=context_dict)
+	return response
 
-#@login_required
+@login_required
 def create_account(request):
 	registered = False
 	if request.method == 'POST':
@@ -154,7 +159,7 @@ def sign_in(request):
 		return render(request, 'forum/sign_in.html')
 
 
-#@login_required
+@login_required
 def sign_out(request):
 	logout(request)
 	#user back to the home.
@@ -163,7 +168,8 @@ def sign_out(request):
 	
 #add verified functionality
 	#-button on categories page
-	#-cannot access the add category page regardless
+	#-cannot access the add category page regardless#
+#add comment list to hack
 #urls need fixes uh ohs
 #add context dicts to forms
 #test add comment
@@ -173,7 +179,7 @@ def sign_out(request):
 #http responses to an error page?? - requires template
 #about form needs a plan
 #testing generally, could be done by anyone if needed
-
+#testing
 
 def addComment(request):
 	form = CommentForm(request.user)

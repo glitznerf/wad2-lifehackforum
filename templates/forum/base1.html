@@ -34,7 +34,7 @@
           {% if user.is_authenticated %}
             <!-- Insert Sign out / Account info here -->
             <a href="{% url 'forum:sign_out' %}">Sign Out</a><br />
-            <a href="{% url 'forum:account_info' %}">Account Info</a>
+            <a href="{% url 'forum:account_info' user.get_username %}">Account Info</a>
           {% else %}
             <!-- Insert Sign in / Create account here -->
             <a href="{% url 'forum:sign_in' %}">Sign In</a><br />
@@ -51,12 +51,6 @@
       {% block menu_block %}
         <ul>
           <li><a href="{% url 'forum:home' %}">Home</a></li>
-          <!-- Working once database is done
-          {% for category in categories %}
-          <li>
-            <a href="{% url 'forum:show_category' category.slug %}">{{ category.name }}</a>
-          </li>
-          {% endfor %} -->
           <li><a href="{% url 'forum:all_categories' %}">All Categories</a></li>
         </ul>
       {% endblock %}
