@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 from forum.models import UserAccount, Category, Hack, Comment
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CategoryForm
@@ -25,21 +26,24 @@ def about(request):
 @login_required
 def create_category(request):
 	form = CategoryForm(request.user)
-	if request.method == 'POST':
-		form = CategoryForm(request.user, request.POST)
-		if form.is_valid():
-			form.save(commit=True)
-			return redirect('/forum/')
-		else:
-			print(form.errors)
-	return render(request, 'forum/create_category.html', {'form': form})
-
-	context_dict = {}
-	response = render(request, 'forum/create_category.html', context=context_dict)
-	return response
-
+	userID =request.user.get_username()
+	users = User.objects.filter(username=userID)
+	verified = UserAccount.objects.filter(user__in=users, verified=True)
 	
-def category(request):
+	if(verified):
+		if request.method == 'POST':
+			form = CategoryForm(request.user, request.POST)
+			if form.is_valid():
+				form.save(commit=True)
+				return redirect('/forum/')
+			else:
+				print(form.errors)
+		return render(request, 'forum/create_category.html', {'form': form})
+	
+	return HttpResponse("This page is exclusively for verified users \n If you believe you are verified please use the check verification button on your account info page \n backspace to return to home page")
+	
+	
+def category(request, category_categoryName_slug):
 	context_dict = {}
 	try:
 		category = Category.objects.get(slug=category_categoryName_slug)
@@ -52,7 +56,7 @@ def category(request):
 		context_dict['pages'] = None
 	return render(request, 'forum/category.html', context=context_dict)	
 
-def hack(request):
+def hack(request, category_categoryName_slug):
 	
 	context_dict = {}
 	try:
@@ -66,8 +70,8 @@ def hack(request):
 	
 	
 	
-@login_required
-def add_hack(request):
+#@login_required
+def add_hack(request, category_categoryName_slug):
 	form = HackForm(request.user)
 	if request.method == 'POST':
 		form = HackForm(request.POST, request.user)
@@ -81,10 +85,15 @@ def add_hack(request):
 	return render(request, 'forum/add_hack.html', {'form': form})
 	
 def all_categories(request):
+	userID =request.user.get_username()
+	users = User.objects.filter(username=userID)
+	verified = UserAccount.objects.filter(user__in=users, verified=True)
+	
 	#search bar not included
 	context_dict = {}
 	category_list = Category.objects.order_by('-categoryName')
 	context_dict['categries'] = category_list
+	context_dict['verified'] = verified
 	response = render(request, 'forum/all_categories.html', context=context_dict)
 	return response
 
@@ -150,12 +159,20 @@ def sign_out(request):
 	logout(request)
 	#user back to the home.
 	return redirect(reverse('forum:home'))
+
 	
-##add addComment Views.py	
-# add verified functionality
+#add verified functionality
+	#-button on categories page
+	#-cannot access the add category page regardless
+#urls need fixes uh ohs
 #add context dicts to forms
+#test add comment
+#search bar api needs implemented
 #sort redirects
-#test add comment after submitted
+	#-back in breadcrumb proably
+#http responses to an error page?? - requires template
+#about form needs a plan
+#testing generally, could be done by anyone if needed
 
 
 def addComment(request):
@@ -167,5 +184,12 @@ def addComment(request):
 			return redirect('/forum/')
 		else:
 			print(form.errors)
+			
+			
+#verified = UserAccount.objects.values_list('verified', flat = True).get(user=users)[0]
+
+#verified = UserAccount.objects.only('verified').get(user=users).verified
+	
+#verified = UserAccount.objects.values('verified').get(user=users)['verified']			
 	
 
