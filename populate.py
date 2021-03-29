@@ -45,10 +45,10 @@ def populate():
            'user': userAccounts[0],
            'description': 'hackInfo related to cleaning'},
           {'categoryName': 'Beauty and Fashion',
-           'user': userAccounts[1],
+           'user': userAccounts[0],
            'description': 'hackInfo related to beauty and fashion'},
           {'categoryName': 'Parenting',
-           'user': userAccounts[2],
+           'user': userAccounts[3],
            'description': 'hackInfo related to being a parent'},
           {'categoryName': 'Organising',
            'user': userAccounts[3],
@@ -56,73 +56,67 @@ def populate():
           {'categoryName': 'Cooking',
            'user': userAccounts[4],
            'description': 'hackInfo related to food and cooking.'}]
-    categories = []
     for info in categoryInfo:
-        categories.append(AddCategory(info['categoryName'], info['user'], info['description']))
-
-
-    hackInfo = [{
-          'name': 'Fresh Bananas',
-          'description': 'By covering the stems of your bananas with plastic wrap you can keep them fresher for longer',
-          'shortDescription': 'Put plastic wrap over banana stems to keep them fresh',
-          'likes': 35,
-          'user': userAccounts[0],
-          'category': categories[0]},
-         {
-          'name': 'Zip Hack',
-          'description': 'Is your jeans zipper falling down? Use a keyring loop to fasten the zip to a button and keep them up!',
-          'shortDescription': 'Use a metal loop to keep jeans from falling down',
-          'likes': 12,
-          'user': userAccounts[0],
-          'category': categories[1]},
-         {
-          'name': 'Mosquito Net Hack',
-          'description': "Put a bedsheet over your child's outdoor play area to prevent bugs from biting them",
-          'shortDescription': 'Use a sheet to protect your child from bugs',
-          'likes': 44,
-          'user': userAccounts[0],
-          'category': categories[2]},
-         {
-          'name': 'Bag Storage',
-          'description': 'Store any plastic bags you have in an empty packet of wipes for easy storage and retrieval',
-          'shortDescription': 'Use empty wipe packets to store carrier bags',
-          'likes': 30,
-          'user': userAccounts[0],
-          'category': categories[3]},
-         {
-          'name': 'Foam Plate Hack',
-          'description': 'Put foam plates in between dishes to avoid them getting chipped when storing them',
-          'shortDescription': 'Use foam plates to protect dishes',
-          'likes': 8,
-          'user': userAccounts[0],
-          'category': categories[4]}
-             ]
-    hacks = []
-    for info in hackInfo:
-        hacks.append(AddHack(info['name'], info['description'], info['shortDescription'], info['likes'],
-                    info['user'], info['category']))
-
-    comments = [
-        {'hack': hacks[0],
-         'user': userAccounts[0],
-         'text': 'Wow, so helpful thanks!'},
-        {'hack': hacks[1],
-         'user': userAccounts[1],
-         'text': 'Great hack, saved my favorite jeans'},
-        {'hack': hacks[2],
-         'user': userAccounts[2],
-         'text': 'Cant wait to try this when the sun comes out.'},
-        {'hack': hacks[3],
-         'user': userAccounts[3],
-         'text': 'Great tip for reducing plastic waste, thank you!'},
-        {'hack': hacks[4],
-         'user': userAccounts[4],
-         'text': 'No more chipped plates!'}
-        ]
-
-
-    for comment in comments:
-        AddComment(comment['hack'], comment['user'], comment['text'])
+        category = AddCategory(info['categoryName'], info['user'], info['description'])
+        hackInfo = [{
+              'name': 'Fresh Bananas',
+              'description': 'By covering the stems of your bananas with plastic wrap you can keep them fresher for longer',
+              'shortDescription': 'Put plastic wrap over banana stems to keep them fresh',
+              'likes': 35,
+              'user': userAccounts[0],
+              'category': category},
+             {
+              'name': 'Zip Hack',
+              'description': 'Is your jeans zipper falling down? Use a keyring loop to fasten the zip to a button and keep them up!',
+              'shortDescription': 'Use a metal loop to keep jeans from falling down',
+              'likes': 12,
+              'user': userAccounts[1],
+              'category': category},
+             {
+              'name': 'Mosquito Net Hack',
+              'description': "Put a bedsheet over your child's outdoor play area to prevent bugs from biting them",
+              'shortDescription': 'Use a sheet to protect your child from bugs',
+              'likes': 44,
+              'user': userAccounts[2],
+              'category': category},
+             {
+              'name': 'Bag Storage',
+              'description': 'Store any plastic bags you have in an empty packet of wipes for easy storage and retrieval',
+              'shortDescription': 'Use empty wipe packets to store carrier bags',
+              'likes': 30,
+              'user': userAccounts[3],
+              'category': category},
+             {
+              'name': 'Foam Plate Hack',
+              'description': 'Put foam plates in between dishes to avoid them getting chipped when storing them',
+              'shortDescription': 'Use foam plates to protect dishes',
+              'likes': 8,
+              'user': userAccounts[4],
+              'category': category}
+              ]
+        for info in hackInfo:
+            hack = AddHack(info['name'], info['description'], info['shortDescription'], 
+                        info['likes'], info['user'], info['category'])
+            comments = [
+                {'hack': hack,
+                 'user': userAccounts[0],
+                 'text': 'Wow, so helpful thanks!'},
+                {'hack': hack,
+                 'user': userAccounts[1],
+                 'text': 'Great hack, saved my favorite jeans'},
+                {'hack': hack,
+                 'user': userAccounts[2],
+                 'text': 'Cant wait to try this when the sun comes out.'},
+                {'hack': hack,
+                 'user': userAccounts[3],
+                 'text': 'Great tip for reducing plastic waste, thank you!'},
+                {'hack': hack,
+                 'user': userAccounts[4],
+                 'text': 'No more chipped plates!'}
+                ]
+            for comment in comments:
+                AddComment(comment['hack'], comment['user'], comment['text'])
+                    
 
 
 
