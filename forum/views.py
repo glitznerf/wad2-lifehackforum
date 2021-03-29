@@ -58,10 +58,9 @@ def category(request, category_categoryName_slug):
 	return render(request, 'forum/category.html', context=context_dict)	
 
 def hack(request, category_categoryName_slug, hack_hack_slug):
-	
 	context_dict = {}
 	try:
-		hack = Hack.objects.get(slug = hack_hack_slug)
+		hack = Hack.objects.get(hackID = hack_hack_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
 		context_dict['hack'] = hack
 		context_dict['comments'] = comment_list
@@ -70,11 +69,10 @@ def hack(request, category_categoryName_slug, hack_hack_slug):
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)
 	
-def hack(request,hack_hack_slug):
-	
+def just_hack(request,hack_hack_slug):
 	context_dict = {}
 	try:
-		hack = Hack.objects.get(slug = hack_hack_slug)
+		hack = Hack.objects.get(hackID = hack_hack_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
 		context_dict['hack'] = hack
 		context_dict['comments'] = comment_list
@@ -82,9 +80,7 @@ def hack(request,hack_hack_slug):
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)	
-	
-	
-	
+		
 @login_required
 def add_hack(request, category_categoryName_slug):
 	form = HackForm(request.user)
@@ -187,6 +183,7 @@ def sign_out(request):
 #urls need fixes uh ohs
 #add context dicts to forms
 #test add comment
+#back end for request verification
 #search bar api needs implemented
 #sort redirects
 	#-back in breadcrumb proably
