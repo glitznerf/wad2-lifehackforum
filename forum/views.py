@@ -10,6 +10,7 @@ from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, Categ
 
 def home(request):
 	#for top 3 of week - returns list of length 3 in order
+
 	hackList = Hack.objects.order_by('-likes')[:3]
 	context_dict = {}
 	
@@ -68,6 +69,19 @@ def hack(request, category_categoryName_slug, hack_hack_slug):
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)
+	
+def hack(request,hack_hack_slug):
+	
+	context_dict = {}
+	try:
+		hack = Hack.objects.get(slug = hack_hack_slug)
+		comment_list = Comment.objects.filter(hackID = hack)
+		context_dict['hack'] = hack
+		context_dict['comments'] = comment_list
+		
+	except Hack.DoesNotExist:
+		context_dict['hack'] = None
+	return render(request, 'forum/hack.html', context=context_dict)	
 	
 	
 	

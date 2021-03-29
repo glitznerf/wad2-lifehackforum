@@ -20,6 +20,7 @@ path('all_categories/create_category', views.create_category, name = 'create_cat
 #hack pages
 path('all_categories/<slug:category_categoryName_slug>/<slug:hack_hack_slug>/', views.hack , name = 'hack'),
 path('all_categories/<slug:category_categoryName_slug>/add_hack/' ,views.add_hack, name = 'add_hack'),
+path('forum/<slug:hack_hack_slug>/', views.hack , name = 'hack'),
 
 
 #non template elements
