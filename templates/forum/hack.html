@@ -1,0 +1,26 @@
+{% extends 'forum/base1.html' %}
+{% load staticfiles %}
+
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'all_categories.css' %}">
+{% endblock %}
+
+{% block title_block %}
+  {% if hack %}
+    {{ hack.name }}
+  {% else %}
+    Unknown Hack
+  {% endif %}
+{% endblock %}
+
+{% block body_block %}
+  {% if hack %}
+    <div id="content_h">
+      <h1>{{ hack.name }}</h1>
+    </div>
+
+
+  {% else %}
+  The specified hack does not exist.
+  {% endif %}
+{% endblock %}
