@@ -112,7 +112,7 @@ def account_info(request, user_id_slug):
 	response = render(request, 'forum/account_info.html', context=context_dict)
 	return response
 
-@login_required
+
 def create_account(request):
 	registered = False
 	if request.method == 'POST':
@@ -181,6 +181,7 @@ def sign_out(request):
 #testing generally, could be done by anyone if needed
 #testing
 
+@login_required
 def addComment(request):
 	form = CommentForm(request.user)
 	if request.method == 'POST':
