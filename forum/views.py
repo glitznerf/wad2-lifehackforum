@@ -56,13 +56,14 @@ def category(request, category_categoryName_slug):
 		context_dict['pages'] = None
 	return render(request, 'forum/category.html', context=context_dict)	
 
-def hack(request, category_categoryName_slug):
+def hack(request, category_categoryName_slug, hack_hack_slug):
 	
 	context_dict = {}
 	try:
-		hack = Hack.objects.get(slug = hack_hackName_slug)
+		hack = Hack.objects.get(slug = hack_hack_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
 		context_dict['hack'] = hack
+		context_dict['comments'] = comment_list
 		
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
