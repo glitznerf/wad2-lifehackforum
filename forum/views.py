@@ -93,7 +93,7 @@ def all_categories(request):
 	#search bar not included
 	context_dict = {}
 	category_list = Category.objects.order_by('-categoryName')
-	context_dict['categries'] = category_list
+	context_dict['categories'] = category_list
 	context_dict['verified'] = verified
 	response = render(request, 'forum/all_categories.html', context=context_dict)
 	return response
