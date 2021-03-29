@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block css_block %}
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'account_info.css' %}">
 {% endblock %}
 
 {% block title_block %}
@@ -12,10 +12,52 @@
 {% block body_block %}
 <div>
     <h1>Account information</h1>
+    <hr/>
 </div>
 
+
 <!--username-->
+
+<div class="username_info">
+
+  <h3>Username: {{ user }}</h3> <br/>
+
+
+</div>
+
 <!--posts-->
+<div class="hacks">
+
+  <h3>Posts</h3>
+
+  {% if hacks %}
+
+      <ul>
+        {% for hack in hacks %}
+          <a href="{% url 'forum:hack' category.slug hack.hackID %}">
+            <div class="category_entry">
+              <li>
+                <h2>{{ hack.name }} </h2><br />
+                {{ hack.shortDescription }}
+              </li>
+            </div>
+          </a>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <strong>No pages currently in category.</strong>
+      {% endif %}
+      <br></br>
+</div>
 
 <!--request verification button-->
+<div class= "request_verify">
+
+  {% if verified %}
+    <strong>You are a verified user</strong>
+  {% else %}  
+
+  <button class="button button1">Request verification</button>
+  {% endif %}
+</div>
 {% endblock %}
