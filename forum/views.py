@@ -164,7 +164,8 @@ def sign_out(request):
 	
 #add verified functionality
 	#-button on categories page
-	#-cannot access the add category page regardless
+	#-cannot access the add category page regardless#
+#add comment list to hack
 #urls need fixes uh ohs
 #add context dicts to forms
 #test add comment
@@ -174,7 +175,7 @@ def sign_out(request):
 #http responses to an error page?? - requires template
 #about form needs a plan
 #testing generally, could be done by anyone if needed
-
+#testing
 
 def addComment(request):
 	form = CommentForm(request.user)

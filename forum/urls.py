@@ -14,4 +14,5 @@ path('all_categories/<slug:category_categoryName_slug>/<slug:hack_hack_slug>/', 
 path('all_categories/<slug:category_categoryName_slug>/add_hack/' ,views.add_hack, name = 'add_hack'),
 path('all_categories/<slug:category_categoryName_slug>/', views.category, name = 'category'),
 path('sign_out/', views.sign_out, name='sign_out'),
+path('add_comment/' , views.addComment, name='add_comment'),
 ]
