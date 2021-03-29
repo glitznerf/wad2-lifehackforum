@@ -38,7 +38,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
     def __str__(self):
-        return self.categoryName
+        return self.slug
 
 
 class Hack(models.Model):
@@ -50,10 +50,10 @@ class Hack(models.Model):
     user = models.ForeignKey(UserAccount, null=True, on_delete=models.SET_NULL)
     categoryName = models.ForeignKey(Category, on_delete=models.CASCADE)
     dateTimeCreated = models.DateTimeField(auto_now_add = True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True) #SHOULD BE AUTO POPULATED BY ADMIN.PY WHEN ENTRY ADDED
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.categoryName)
-        super(Category, self).save(*args, **kwargs)
+        self.slug = slugify(self.name)
+        super(Hack, self).save(*args, **kwargs)
     def __str__(self):
         return self.hackID
 
