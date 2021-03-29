@@ -66,4 +66,4 @@ class Comment(models.Model):
     dateTimeCreated = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        return self.commentID
+        return str(self.commentID)
