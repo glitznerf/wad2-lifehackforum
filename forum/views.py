@@ -8,7 +8,7 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CommentForm, VerificationForm
+from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CommentForm
 
 ##########################################Base###############################################
 def home(request):
@@ -128,12 +128,13 @@ def add_hack(request, category_categoryName_slug):
 @login_required
 def account_info(request, user_id_slug):
 	context_dict = {}
-	
+	'''
 	sum = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
 	if (sum >= 200):
 		context_dict['2Bverified'] = True
 	else:
 		context_dict['2Bverified'] = False
+	'''
 	
 	hack_list = Hack.objects.filter(user__user = request.user)
 	
@@ -197,7 +198,7 @@ def sign_out(request):
 
 	
 @login_required
-def add_comment(request):
+def add_comment(request, hack_hack_slug):
     form = CommentForm()
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -205,6 +206,7 @@ def add_comment(request):
             newComm = form.save(commit=False)
             newComm.user = UserAccount.objects.get(pk=request.user)
             #here is where we will add the hackID, just like the user
+            newComm.hackID = Hack.objects.get(pk = hack_hack_slug)
             newComm.save()
             return redirect('/forum/')
         else:
@@ -212,14 +214,13 @@ def add_comment(request):
 			
 @login_required
 def request_verification(request):
-	form = VerificationForm(request.user)
-	if request.method == 'POST':
-		form = VerificationForm(request.POST, request.user)
-		if form.is_valid():
-			form.save(commit=True)
-			return redirect('/forum/')
-		else:
-			print(form.errors)
-
 	
+	sum = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
+	if (sum >= 200):
+		userID = request.user.get_username()
+		users = User.objects.filter(username=userID)
+		verified = UserAccount.objects.filter(user__in=users, verified=True)
+		UserAccount.objects.filter(user__in = users).update(verified=True)
+	return redirect('/forum/')
+
 
