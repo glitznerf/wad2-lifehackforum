@@ -68,7 +68,7 @@
   	{% if user.is_authenticated %}
       <div id="add_comment">
         <div id="subhead"><h2>Add Comment</h2></div>
-    		<form id="add_comment" method="post" action="{% url 'forum:add_comment'  %}">
+    		<form id="add_comment" method="post" action="{% url 'forum:add_comment' hack.hackID %}">
               {% csrf_token %}
 
               <!-- <label for="text"><b>Add Comment: </b></label> -->
