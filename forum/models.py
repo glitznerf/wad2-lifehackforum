@@ -50,7 +50,7 @@ class Hack(models.Model):
     user = models.ForeignKey(UserAccount, null=True, on_delete=models.SET_NULL)
     categoryName = models.ForeignKey(Category, on_delete=models.CASCADE)
     dateTimeCreated = models.DateTimeField(auto_now_add = True)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True)
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Hack, self).save(*args, **kwargs)
