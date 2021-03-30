@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CommentForm
 
-
+##########################################Base###############################################
 def home(request):
 	#for top 3 of week - returns list of length 3 in order
 
@@ -25,10 +25,9 @@ def about(request):
 	context_dict = {}
 	return render(request, 'forum/about.html', context=context_dict)
 
+##########################################Category###############################################
 @login_required
 def create_category(request):
-
-
 	form = CategoryForm(request.user)
 	userID =request.user.get_username()
 	users = User.objects.filter(username=userID)
@@ -60,6 +59,22 @@ def category(request, category_categoryName_slug):
 		context_dict['pages'] = None
 	return render(request, 'forum/category.html', context=context_dict)	
 
+def all_categories(request):
+	userID =request.user.get_username()
+	users = User.objects.filter(username=userID)
+	verified = UserAccount.objects.filter(user__in=users, verified=True)
+	
+	#search bar not included
+	context_dict = {}
+	category_list = Category.objects.order_by('-categoryName')
+	context_dict['categories'] = category_list
+	context_dict['verified'] = verified
+	response = render(request, 'forum/all_categories.html', context=context_dict)
+	return response
+
+
+
+########################################## Hack ###############################################
 def hack(request, category_categoryName_slug, hack_hack_slug):
 	context_dict = {}
 	try:
@@ -84,6 +99,7 @@ def just_hack(request,hack_hack_slug):
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)	
 		
+		
 @login_required
 def add_hack(request, category_categoryName_slug):
 	form = HackForm(request.user)
@@ -98,33 +114,26 @@ def add_hack(request, category_categoryName_slug):
 	context_dict = {}		
 	return render(request, 'forum/add_hack.html', {'form': form})
 	
-def all_categories(request):
-	userID =request.user.get_username()
-	users = User.objects.filter(username=userID)
-	verified = UserAccount.objects.filter(user__in=users, verified=True)
-	
-	#search bar not included
-	context_dict = {}
-	category_list = Category.objects.order_by('-categoryName')
-	context_dict['categories'] = category_list
-	context_dict['verified'] = verified
-	response = render(request, 'forum/all_categories.html', context=context_dict)
-	return response
+########################################## Account ###############################################
 
 
 @login_required
 def account_info(request, user_id_slug):
 	context_dict = {}
-	user_id =request.user.get_username()
-	users = User.objects.filter(username=user_id)
 	
-	hack_list = Hack.objects.filter(name = user_id)
-	context_dict['user'] = user_id
+#	userID =request.user.get_username()
+#	users = User.objects.filter(username__in=request.user)
+#	user = UserAccount.objects.filter(user__in =users)
+	#hack_list = Hack.objects.filter(user=user_id_slug)
+	
+	#hack_list = Hack.objects.filter(user=user)
+	
+	print('#########' + user_id_slug + '##########')
+	hack_list = Hack.objects.filter(user__user = request.user)
 	context_dict['hacks'] = hack_list
 	
 	response = render(request, 'forum/account_info.html', context=context_dict)
 	return response
-
 
 def create_account(request):
 	registered = False
@@ -171,6 +180,7 @@ def sign_in(request):
 		# No context variables to pass to the template system
 		return render(request, 'forum/sign_in.html')
 
+##########################################Non Template Elements############################################
 
 @login_required
 def sign_out(request):

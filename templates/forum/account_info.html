@@ -31,10 +31,9 @@
   <h3>Posts</h3>
 
   {% if hacks %}
-
       <ul>
         {% for hack in hacks %}
-          <a href="{% url 'forum:hack' category.slug hack.hackID %}">
+          <a href="{% url 'forum:just_hack' hack.hackID %}">
             <div class="category_entry">
               <li>
                 <h2>{{ hack.name }} </h2><br />

@@ -23,7 +23,6 @@ path('all_categories/<slug:category_categoryName_slug>/add_hack/' ,views.add_hac
 path('hack/<slug:hack_hack_slug>/' ,views.just_hack, name = 'just_hack'),
 
 
-
 #non template elements
 path('sign_out/', views.sign_out, name='sign_out'),
 path('add_comment/' , views.addComment, name='add_comment'),
