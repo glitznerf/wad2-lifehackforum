@@ -3,10 +3,12 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from forum.models import UserAccount, Category, Hack, Comment
+from django.db.models import Sum
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CommentForm
+from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CommentForm, VerificationForm
 
 ##########################################Base###############################################
 def home(request):
@@ -116,20 +118,18 @@ def add_hack(request, category_categoryName_slug):
 	
 ########################################## Account ###############################################
 
-
 @login_required
 def account_info(request, user_id_slug):
 	context_dict = {}
 	
-#	userID =request.user.get_username()
-#	users = User.objects.filter(username__in=request.user)
-#	user = UserAccount.objects.filter(user__in =users)
-	#hack_list = Hack.objects.filter(user=user_id_slug)
+	sum = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
+	if (sum >= 200):
+		context_dict['2Bverified'] = True
+	else:
+		context_dict['2Bverified'] = False
 	
-	#hack_list = Hack.objects.filter(user=user)
-	
-	print('#########' + user_id_slug + '##########')
 	hack_list = Hack.objects.filter(user__user = request.user)
+	
 	context_dict['hacks'] = hack_list
 	
 	response = render(request, 'forum/account_info.html', context=context_dict)
@@ -189,26 +189,8 @@ def sign_out(request):
 	return redirect(reverse('forum:home'))
 
 	
-#add verified functionality
-	#-button on categories page
-	#-cannot access the add category page regardless#
-#add comment list to hack
-#urls need fixes uh ohs
-#add context dicts to forms
-#incorrectness for categories form
-#test add comment
-#back end for request verification
-#search bar api needs implemented
-#sort redirects
-	#-back in breadcrumb proably
-#appologise to frederik for home	
-#http responses to an error page?? - requires template
-#about form needs a plan
-#testing generally, could be done by anyone if needed
-#testing
-
 @login_required
-def addComment(request):
+def add_comment(request):
 	form = CommentForm(request.user)
 	if request.method == 'POST':
 		form = CommentForm(request.POST, request.user)
@@ -218,11 +200,16 @@ def addComment(request):
 		else:
 			print(form.errors)
 			
-			
-#verified = UserAccount.objects.values_list('verified', flat = True).get(user=users)[0]
+@login_required
+def request_verification(request):
+	form = VerificationForm(request.user)
+	if request.method == 'POST':
+		form = VerificationForm(request.POST, request.user)
+		if form.is_valid():
+			form.save(commit=True)
+			return redirect('/forum/')
+		else:
+			print(form.errors)
 
-#verified = UserAccount.objects.only('verified').get(user=users).verified
-	
-#verified = UserAccount.objects.values('verified').get(user=users)['verified']			
 	
 
