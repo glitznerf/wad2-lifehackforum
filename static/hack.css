@@ -1,0 +1,50 @@
+#category {
+  background: #050505;
+  width: 10%;
+  height: 25px;
+  color: white;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+#hackBody {
+  position: relative;
+  float: left;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+#hack {
+  background-color: #8ab9f1;
+}
+
+#user {
+  position: absolute;
+  top: 57px;
+  width: 40%;
+  background-color: #679bf1;
+}
+
+#verified {
+}
+
+#stars {
+}
+
+#star{
+  width: 2%;
+}
+
+#desc {
+  background-color: #f8de7e;
+}
+
+#comments, #add_comment {
+  float: left;
+  background-color: #f8de7e;
+  width: 50%;
+}
+#subhead {
+  width: 80%;
+  background-color: #ffc40a;
+}

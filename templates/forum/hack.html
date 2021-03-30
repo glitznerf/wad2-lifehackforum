@@ -15,31 +15,35 @@
 
 {% block body_block %}
   {% if hack %}
-    <div id="category">
-      <h1>{{ hack.categoryName }}</h1>
-    </div>
+    <a href="{% url 'forum:category' hack.categoryName %}" id="category">
+      <div id="category">
+        {{ hack.categoryName }}
+      </div>
+    </a>
 
     <div id="hackBody">
       <div id="hack">
         <h1>{{ hack.name }}</h1>
       </div>
 
-      {% if hack.user.verified %}
-        <div id="verified">
-          Verified
-        </div>
-      {% endif %}
+      <div id="user">
+        Uploaded by <i>{{ hack.user }}</i>
+        {% if hack.user.verified %}
+          : <b> Verified </b>
+        {% endif %}
+      </div>
+
 
       <div id="stars">
-        <!-- NEEED TO EDIT IMAG ELINK!! -->
-        <img id="star" src="{% static 'images/rango.jpg' %}" alt="Star" />
-        <p>{{ hack.likes }}</p>
+        <img id="star" src="{% static 'images/star.png' %}" alt="Star" />
+        {{ hack.likes }}
       </div>
 
       {% if hack.image %}
         <!-- NEEED TO EDIT IMAGE LINK!! -->
         <img id="img" src="{% static 'images/rango.jpg' %}" alt="Hack image" />
       {% endif %}
+      <div id="clear"></div>
 
       <div id="desc">
         <p>{{ hack.description }}</p>
@@ -47,11 +51,12 @@
 
       {% if comments %}
         <div id="comments">
+          <div id="subhead"><h2>Comments</h2></div>
           <ul>
             {% for comment in comments %}
               <div class="comment_entry">
                 <li>
-                  <i>{{ comment.user }}</i>: {{ comment.text }}
+                  <i style="text-transform: capitalize">{{ comment.user }}</i>: {{ comment.text }}
                 </li>
               </div>
             {% endfor %}
@@ -60,24 +65,26 @@
       {% endif %}
 
 
-	{% if user.is_authenticated %}
-		<form id="add_comment" method="post" action="{% url 'forum:add_comment'  %}">
-          {% csrf_token %}
-		
-          <label for="text"><b>Type here: </b></label>
-          <input type="text" name="text" value="" size="255"/>
+  	{% if user.is_authenticated %}
+      <div id="add_comment">
+        <div id="subhead"><h2>Add Comment</h2></div>
+    		<form id="add_comment" method="post" action="{% url 'forum:add_comment'  %}">
+              {% csrf_token %}
 
-          <input type="submit" value="Submit" />
+              <!-- <label for="text"><b>Add Comment: </b></label> -->
+              <textarea name="text" cols="50" rows="5"></textarea>
+              <!-- <input type="text" name="text" value="" size="200"/> -->
 
-      </form>
-	  
-	  {% endif %}
-    </div>
+              <input type="submit" value="Submit" />
+        </form>
+      </div>
+    {% endif %}
 
-
+  </div>
 
 
   {% else %}
     The specified hack does not exist.
   {% endif %}
+  <div id="clear"></div>
 {% endblock %}
