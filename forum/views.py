@@ -30,23 +30,27 @@ def about(request):
 ##########################################Category###############################################
 @login_required
 def create_category(request):
-	form = CategoryForm(request.user)
-	userID =request.user.get_username()
-	users = User.objects.filter(username=userID)
-	verified = UserAccount.objects.filter(user__in=users, verified=True)
-	
-	if(verified):
-		if request.method == 'POST':
-			form = CategoryForm(request.user, request.POST)
-			if form.is_valid():
-				form.save(commit=True)
-				return redirect('/forum/all_categories')
-			else:
-				print(form.errors)
-		return render(request, 'forum/create_category.html', {'form': form})
-	
-	return HttpResponse("This page is exclusively for verified users \n If you believe you are verified please use the check verification button on your account info page \n backspace to return to home page")
-	
+    form = CategoryForm()
+    userID = request.user.get_username()
+    users = User.objects.filter(username=userID)
+    verified = UserAccount.objects.filter(user__in=users, verified=True)
+
+    if (verified):
+        if request.method == 'POST':
+            form = CategoryForm(request.POST)
+            if form.is_valid():
+                newCat = form.save(commit=False)
+                newCat.user = UserAccount.objects.get(pk=request.user)
+                newCat.save()
+                return redirect('/forum/all_categories')
+        else:
+            print(form.errors)
+
+
+        return render(request, 'forum/create_category.html', {'form': form})
+
+    return HttpResponse("This page is exclusively for verified users \n If you believe you are verified please use the check verification button on your account info page \n backspace to return to home page")
+
 	
 def category(request, category_categoryName_slug):
 	context_dict = {}
@@ -104,17 +108,20 @@ def just_hack(request,hack_hack_slug):
 		
 @login_required
 def add_hack(request, category_categoryName_slug):
-	form = HackForm(request.user)
-	if request.method == 'POST':
-		form = HackForm(request.POST, request.user)
-		if form.is_valid():
-			form.save(commit=True)
-			#perhaps redirect to category not home?
-			return redirect('/forum/')
-		else:
-			print(form.errors)
-	context_dict = {}		
-	return render(request, 'forum/add_hack.html', {'form': form})
+    form = HackForm()
+    if request.method == 'POST':
+        form = HackForm(request.POST)
+        if form.is_valid():
+            newHack = form.save(commit=False)
+            newHack.user = UserAccount.objects.get(pk=request.user)
+            #here is where we will add the categoryName, just like the user
+            newHack.save()
+            #perhaps redirect to category not home?
+            return redirect('/forum/')
+        else:
+            print(form.errors)
+    context_dict = {}		
+    return render(request, 'forum/add_hack.html', {'form': form})
 	
 ########################################## Account ###############################################
 
@@ -191,14 +198,17 @@ def sign_out(request):
 	
 @login_required
 def add_comment(request):
-	form = CommentForm(request.user)
-	if request.method == 'POST':
-		form = CommentForm(request.POST, request.user)
-		if form.is_valid():
-			form.save(commit=True)
-			return redirect('/forum/')
-		else:
-			print(form.errors)
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            newComm = form.save(commit=False)
+            newComm.user = UserAccount.objects.get(pk=request.user)
+            #here is where we will add the hackID, just like the user
+            newComm.save()
+            return redirect('/forum/')
+        else:
+            print(form.errors)
 			
 @login_required
 def request_verification(request):

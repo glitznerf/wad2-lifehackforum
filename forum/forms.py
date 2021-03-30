@@ -20,17 +20,9 @@ class CategoryForm(forms.ModelForm):
     categoryName = forms.CharField(max_length=20, help_text="Please enter the category name.")
     description = forms.CharField(max_length=55, help_text="Please enter a description.")
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
-    user = forms.ModelMultipleChoiceField(queryset=User.objects, widget=forms.HiddenInput(), required=False)
     class Meta:
         model = Category
-        fields = ('categoryName', 'description', 'slug', "user")
-    def __init__(self, user, *args, **kwargs):
-        print("try !!!!!!!!!!!!!!")
-        self.user = user
-        print("---")
-        print(self.user)
-        print("---")
-        super(CategoryForm, self).__init__(*args, **kwargs)
+        fields = ('categoryName', 'description', 'slug')
 
 
 class HackForm(forms.ModelForm):
@@ -44,9 +36,6 @@ class HackForm(forms.ModelForm):
         model = Hack
         fields = ('name', 'description', 'shortDescription',
                   'slug', 'hackID', 'likes')
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super(HackForm, self).__init__(*args, **kwargs)
 
 class CommentForm(forms.ModelForm):
     text = forms.CharField(max_length=255)
@@ -54,9 +43,6 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('text', 'commentID')
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super(CommentForm, self).__init__(*args, **kwargs)
 		
 		
 class VerificationForm(forms.ModelForm):
