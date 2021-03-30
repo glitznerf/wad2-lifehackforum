@@ -25,5 +25,6 @@ path('hack/<slug:hack_hack_slug>/' ,views.just_hack, name = 'just_hack'),
 
 #non template elements
 path('sign_out/', views.sign_out, name='sign_out'),
-path('add_comment/' , views.addComment, name='add_comment'),
+path('add_comment/' , views.add_comment, name='add_comment'),
+path('request_verification/' , views.request_verification, name='request_verification'),
 ]

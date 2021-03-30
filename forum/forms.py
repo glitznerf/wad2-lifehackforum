@@ -8,7 +8,6 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('username','email','password',)
     
-
 	
 class UserAccountForm(forms.ModelForm):
     verified = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False)
@@ -58,3 +57,17 @@ class CommentForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super(CommentForm, self).__init__(*args, **kwargs)
+		
+		
+class VerificationForm(forms.ModelForm):
+    verified = forms.BooleanField()
+    class Meta:
+        model = UserAccount
+        fields = ('verified',)
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(VerificationForm, self).__init__(*args, **kwargs)	
+
+
+
+		

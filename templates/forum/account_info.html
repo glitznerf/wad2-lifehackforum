@@ -58,7 +58,17 @@
     <strong>You are a verified user</strong>
   {% else %}  
 
-  <button class="button button1">Request verification</button>
+
+      <form id="request_verification_form" method="post" action="{% url 'forum:request_verification' %}">
+          {% csrf_token %}
+	
+          <input type="hidden" name="verified" value="True" size="50"/>
+		
+          <input type="submit" value="Request Verification" />
+
+
+      </form>
+	  
   {% endif %}
 </div>
 {% endblock %}
