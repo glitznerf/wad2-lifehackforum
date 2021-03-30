@@ -51,6 +51,7 @@ class Hack(models.Model):
     categoryName = models.ForeignKey(Category, on_delete=models.CASCADE)
     dateTimeCreated = models.DateTimeField(auto_now_add = True)
     slug = models.SlugField(blank=True)
+    image = models.ImageField(upload_to='hackImages', default='default.jpg')
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Hack, self).save(*args, **kwargs)

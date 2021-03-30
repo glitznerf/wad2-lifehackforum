@@ -29,6 +29,7 @@ class HackForm(forms.ModelForm):
     name = forms.CharField(max_length=30)
     description = forms.CharField(max_length=500)
     shortDescription = forms.CharField(max_length=55)
+    image = forms.ImageField(required=False)
     dateTimeCreated = forms.DateTimeField(widget=forms.HiddenInput(), required=False)
     slug = forms.SlugField(widget=forms.HiddenInput(), required=False)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
