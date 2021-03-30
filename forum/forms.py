@@ -43,17 +43,4 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('text', 'commentID')
-		
-		
-class VerificationForm(forms.ModelForm):
-    verified = forms.BooleanField()
-    class Meta:
-        model = UserAccount
-        fields = ('verified',)
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super(VerificationForm, self).__init__(*args, **kwargs)	
-
-
-
-		
+			
