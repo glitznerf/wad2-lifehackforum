@@ -17,25 +17,41 @@
   <div class="hack_carousel">
 
 	{% if hacks %}
-      <ul>
-        {% for hack in hacks %}
-          <a href="{% url 'forum:just_hack' hack.hackID %}">
-            <div class="category_entry">
-              <li>
-                <h2>{{ hack.name }} </h2><br />
-                {{ hack.shortDescription }}
-              </li>
-			   <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 1 Hack" />
-			
-            </div>
-          </a>
-        {% endfor %}
-      </ul>
-      {% else %}
-        <strong>No pages currently in category.</strong>
-      {% endif %}
-	
-	
+    <a href="{% url 'forum:just_hack' hacks.0.hackID %}">
+      <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 1 Hack" />
+      <div class="top_hack" style="left: 16.665%">{{ hacks.0.name }}</div>
+    </a>
+
+    <a href="{% url 'forum:just_hack' hacks.1.hackID %}">
+      <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 2 Hack" />
+      <div class="top_hack" style="left: 50%">{{ hacks.1.name }}</div>
+    </a>
+
+    <a href="{% url 'forum:just_hack' hacks.2.hackID %}">
+      <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 3 Hack"  />
+      <div class="top_hack" style="left: 83.325%">{{ hacks.2.name }}</div>
+    </a>
+
+    <!--
+    <ul>
+    {% for hack in hacks %}
+      <a href="{% url 'forum:just_hack' hack.hackID %}">
+        <div class="category_entry">
+          <li>
+            <h2>{{ hacks.0.name }} </h2><br />
+            {{ hack.shortDescription }}
+          </li>
+	   <img id="img" src="{% static 'images/rango.jpg' %}" alt="Top 1 Hack" />
+
+        </div>
+      </a>
+    {% endfor %}
+      </ul>-->
+    {% else %}
+      <strong>No pages currently in category.</strong>
+    {% endif %}
+
+
 
 
   <!--</div>-->
