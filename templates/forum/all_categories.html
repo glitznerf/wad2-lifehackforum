@@ -10,6 +10,15 @@
 {% endblock %}
 
 {% block body_block %}
+
+  {% if verified %}
+    <a href="{% url 'forum:create_category' %}" id="addhack">
+      <div id="addhack">
+        Add Category
+      </div>
+    </a>
+  {% endif %}
+
   <div id="content_h">
     <h1>All Categories</h1>
   </div>
@@ -26,6 +35,7 @@
           </div>
         </a>
       {% endfor %}
+
     {% else %}
       <a href="/">
         <div class="category_entry">
@@ -37,9 +47,5 @@
       </a>
     {% endif %}
   </ul>
-
-  {% if verified %}
-    <a href="{% url 'forum:create_category' %}">Add Category</a> <br />
-  {% endif %}
 
 {% endblock %}
