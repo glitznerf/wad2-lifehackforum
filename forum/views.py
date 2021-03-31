@@ -110,8 +110,7 @@ def add_hack(request, category_categoryName_slug):
             newHack.categoryName = Category.objects.filter(name = category_categoryName_slug)
            
             newHack.save()
-            #perhaps redirect to category not home?
-            return redirect('/forum/')
+            return redirect('/forum/all_categories/'+category_categoryName_slug+'/')
         else:
             print(form.errors)
     context_dict = {}
@@ -194,19 +193,18 @@ def add_comment(request, hack_hack_slug):
             newComm.user = UserAccount.objects.get(pk=request.user)
             newComm.hackID = Hack.objects.get(pk = hack_hack_slug)
             newComm.save()
-            return redirect('/forum/')
+            return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
         else:
             print(form.errors)
 			
 @login_required
 def request_verification(request):
-	
 	sum = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
 	if (sum >= 200):
 		userID = request.user.get_username()
 		users = User.objects.filter(username=userID)
 		verified = UserAccount.objects.filter(user__in=users, verified=True)
 		UserAccount.objects.filter(user__in = users).update(verified=True)
-	return redirect('/forum/')
+	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 
