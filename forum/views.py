@@ -53,6 +53,8 @@ def create_category(request):
 
 	
 def category(request, category_categoryName_slug):
+	print('##############################################################')
+	
 	context_dict = {}
 	try:
 		category = Category.objects.get(slug=category_categoryName_slug)
@@ -83,6 +85,7 @@ def all_categories(request):
 ########################################## Hack ###############################################
 def hack(request, category_categoryName_slug, hack_hack_slug):	
 	context_dict = {}
+	print ('################### '+ category_categoryName_slug + '##########' + hack_hack_slug+' #########################')
 	try:
 		hack = Hack.objects.get(hackID = hack_hack_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
@@ -98,7 +101,7 @@ def hack(request, category_categoryName_slug, hack_hack_slug):
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)
-	
+
 def just_hack(request,hack_hack_slug):
 	context_dict = {}
 	try:
@@ -116,23 +119,33 @@ def just_hack(request,hack_hack_slug):
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)	
-		
+
 		
 @login_required
 def add_hack(request, category_categoryName_slug):
     form = HackForm()
+    print ("#########################" + category_categoryName_slug + "#######################")
+    '''
     if request.method == 'POST':
         form = HackForm(request.POST)
         if form.is_valid():
             newHack = form.save(commit=False)
             newHack.user = UserAccount.objects.get(pk=request.user)
             #here is where we will add the categoryName, just like the user
+			
+           # print('###########'+ Category.objects.filter(slug__in = category_categoryName_slug) +'####')
+			
+            newHack.categoryName = Category.objects.filter(aswde = category_categoryName_slug)
+           
             newHack.save()
             #perhaps redirect to category not home?
             return redirect('/forum/')
         else:
             print(form.errors)
-    context_dict = {}		
+    print ('################### working #########################')
+    '''
+    context_dict = {}	
+    context_dict['category'] = category_categoryName_slug	
     return render(request, 'forum/add_hack.html', {'form': form})
 	
 ########################################## Account ###############################################

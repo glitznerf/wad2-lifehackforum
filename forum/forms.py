@@ -26,6 +26,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class HackForm(forms.ModelForm):
+    print('###################################### at form #############################')
     name = forms.CharField(max_length=30)
     description = forms.CharField(max_length=500)
     shortDescription = forms.CharField(max_length=55)
