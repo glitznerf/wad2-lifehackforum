@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CommentForm
 
-##########################################Base###############################################
+########################################## Base ###############################################
 def home(request):
 	#for top 3 of week - returns list of length 3 in order
 
@@ -27,7 +27,7 @@ def about(request):
 	context_dict = {}
 	return render(request, 'forum/about.html', context=context_dict)
 
-##########################################Category###############################################
+########################################## Category ###############################################
 @login_required
 def create_category(request):
     form = CategoryForm()
@@ -81,11 +81,17 @@ def all_categories(request):
 
 
 ########################################## Hack ###############################################
-def hack(request, category_categoryName_slug, hack_hack_slug):
+def hack(request, category_categoryName_slug, hack_hack_slug):	
 	context_dict = {}
 	try:
 		hack = Hack.objects.get(hackID = hack_hack_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
+		
+		if hack.image.url == "/media/default.jpg":
+			context_dict['not_default']=False
+		else:	
+			context_dict['not_default']=True
+		
 		context_dict['hack'] = hack
 		context_dict['comments'] = comment_list
 		
@@ -98,6 +104,12 @@ def just_hack(request,hack_hack_slug):
 	try:
 		hack = Hack.objects.get(hackID = hack_hack_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
+		
+		if hack.image.url == "/media/default.jpg":
+			context_dict['not_default']=False
+		else:
+			context_dict['not_default']=True
+		
 		context_dict['hack'] = hack
 		context_dict['comments'] = comment_list
 		
@@ -128,13 +140,6 @@ def add_hack(request, category_categoryName_slug):
 @login_required
 def account_info(request, user_id_slug):
 	context_dict = {}
-	'''
-	sum = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
-	if (sum >= 200):
-		context_dict['2Bverified'] = True
-	else:
-		context_dict['2Bverified'] = False
-	'''
 	
 	hack_list = Hack.objects.filter(user__user = request.user)
 	
@@ -188,7 +193,7 @@ def sign_in(request):
 		# No context variables to pass to the template system
 		return render(request, 'forum/sign_in.html')
 
-##########################################Non Template Elements############################################
+########################################## Non Template Elements ############################################
 
 @login_required
 def sign_out(request):
