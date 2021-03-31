@@ -53,8 +53,6 @@ def create_category(request):
 
 	
 def category(request, category_categoryName_slug):
-	print('##############################################################')
-	
 	context_dict = {}
 	try:
 		category = Category.objects.get(slug=category_categoryName_slug)
@@ -124,26 +122,18 @@ def just_hack(request,hack_hack_slug):
 @login_required
 def add_hack(request, category_categoryName_slug):
     form = HackForm()
-    print ("#########################" + category_categoryName_slug + "#######################")
-    '''
     if request.method == 'POST':
         form = HackForm(request.POST)
         if form.is_valid():
             newHack = form.save(commit=False)
             newHack.user = UserAccount.objects.get(pk=request.user)
-            #here is where we will add the categoryName, just like the user
-			
-           # print('###########'+ Category.objects.filter(slug__in = category_categoryName_slug) +'####')
-			
-            newHack.categoryName = Category.objects.filter(aswde = category_categoryName_slug)
+            newHack.categoryName = Category.objects.filter(name = category_categoryName_slug)
            
             newHack.save()
             #perhaps redirect to category not home?
             return redirect('/forum/')
         else:
             print(form.errors)
-    print ('################### working #########################')
-    '''
     context_dict = {}	
     context_dict['category'] = category_categoryName_slug	
     return render(request, 'forum/add_hack.html', {'form': form})
