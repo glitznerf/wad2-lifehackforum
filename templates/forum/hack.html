@@ -39,15 +39,19 @@
         {{ hack.likes }}
       </div>
 
-      {% if hack.image %}
-        <!-- NEEED TO EDIT IMAGE LINK!! -->
-        <img id="img" src="{% static 'images/rango.jpg' %}" alt="Hack image" />
+
+      {% if not_default %}
+        <img id="img" src="{{hack.image.url}}" alt="Hack image" />
       {% endif %}
-      <div id="clear"></div>
+      {% if hack.image %}
+        <!-- <img id="img" src="{% static 'images/rango.jpg' %}" alt="Hack image" /> -->
+      {% endif %}
 
       <div id="desc">
         <p>{{ hack.description }}</p>
       </div>
+
+      <p></p>
 
       {% if comments %}
         <div id="comments">
