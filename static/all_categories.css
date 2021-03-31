@@ -1,3 +1,14 @@
+#addhack {
+  text-align: center;
+  justify-content: center;
+  background: #050505;
+  width: 10%;
+  height: 22px;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 #content_h {
   background-color: #8ab9f1;
   text-align: center;
