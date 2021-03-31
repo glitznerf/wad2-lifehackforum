@@ -15,7 +15,7 @@
       <h1>Create New Hacks.R.Us Hack</h1>
 
 
-      <form id="create_hack_form" method="post" action="{% url 'forum:add_hack' 'cleaning' %}">
+      <form id="create_hack_form" method="post" action="{% url 'forum:add_hack' 'category'  %}">
           {% csrf_token %}
 		
           <label for="name"><b>Hack Name: </b></label>

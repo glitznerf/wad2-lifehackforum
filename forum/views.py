@@ -81,9 +81,8 @@ def all_categories(request):
 
 
 ########################################## Hack ###############################################
-def hack(request, category_categoryName_slug, hack_hack_slug):	
+def hack(request,  hack_hack_slug, category_categoryName_slug = None):	
 	context_dict = {}
-	print ('################### '+ category_categoryName_slug + '##########' + hack_hack_slug+' #########################')
 	try:
 		hack = Hack.objects.get(hackID = hack_hack_slug)
 		comment_list = Comment.objects.filter(hackID = hack)
@@ -100,25 +99,6 @@ def hack(request, category_categoryName_slug, hack_hack_slug):
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)
 
-def just_hack(request,hack_hack_slug):
-	context_dict = {}
-	try:
-		hack = Hack.objects.get(hackID = hack_hack_slug)
-		comment_list = Comment.objects.filter(hackID = hack)
-		
-		if hack.image.url == "/media/default.jpg":
-			context_dict['not_default']=False
-		else:
-			context_dict['not_default']=True
-		
-		context_dict['hack'] = hack
-		context_dict['comments'] = comment_list
-		
-	except Hack.DoesNotExist:
-		context_dict['hack'] = None
-	return render(request, 'forum/hack.html', context=context_dict)	
-
-		
 @login_required
 def add_hack(request, category_categoryName_slug):
     form = HackForm()
@@ -134,8 +114,7 @@ def add_hack(request, category_categoryName_slug):
             return redirect('/forum/')
         else:
             print(form.errors)
-    context_dict = {}	
-    context_dict['category'] = category_categoryName_slug	
+    context_dict = {}
     return render(request, 'forum/add_hack.html', {'form': form})
 	
 ########################################## Account ###############################################
@@ -213,7 +192,6 @@ def add_comment(request, hack_hack_slug):
         if form.is_valid():
             newComm = form.save(commit=False)
             newComm.user = UserAccount.objects.get(pk=request.user)
-            #here is where we will add the hackID, just like the user
             newComm.hackID = Hack.objects.get(pk = hack_hack_slug)
             newComm.save()
             return redirect('/forum/')

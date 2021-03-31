@@ -17,17 +17,17 @@
   <div class="hack_carousel">
 
 	{% if hacks %}
-    <a href="{% url 'forum:just_hack' hacks.0.hackID %}">
+    <a href="{% url 'forum:hack' hacks.0.hackID %}">
       <img id="img" src="{{ hacks.0.image.url }}" alt="Top 1 Hack" />
       <div class="top_hack" style="left: 16.665%">{{ hacks.0.name }}</div>
     </a>
 
-    <a href="{% url 'forum:just_hack' hacks.1.hackID %}">
+    <a href="{% url 'forum:hack' hacks.1.hackID %}">
       <img id="img" src="{{ hacks.1.image.url }}" alt="Top 2 Hack" />
       <div class="top_hack" style="left: 50%">{{ hacks.1.name }}</div>
     </a>
 
-    <a href="{% url 'forum:just_hack' hacks.2.hackID %}">
+    <a href="{% url 'forum:hack' hacks.2.hackID %}">
       <img id="img" src="{{ hacks.2.image.url }}" alt="Top 3 Hack"  />
       <div class="top_hack" style="left: 83.325%">{{ hacks.2.name }}</div>
     </a>
@@ -35,7 +35,7 @@
     <!--
     <ul>
     {% for hack in hacks %}
-      <a href="{% url 'forum:just_hack' hack.hackID %}">
+      <a href="{% url 'forum:hack' hack.hackID %}">
         <div class="category_entry">
           <li>
             <h2>{{ hacks.0.name }} </h2><br />
