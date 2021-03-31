@@ -15,10 +15,21 @@
   background-color:#8ab9f1;
 }
 
-.category_entry{
+.hacks{
   width:600px;
   height:300px;
   line-height:3em;
   overflow:scroll;
   padding:5px;
+}
+
+input[type=button], input[type=submit] {
+  background-color: #8ab9f1;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
 }

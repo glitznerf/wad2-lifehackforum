@@ -25,11 +25,12 @@
 
 </div>
 
+<div> 
+  <h3>Posts</h3>
+</div>
 <!--posts-->
 <div class="hacks">
-
-  <h3>Posts</h3>
-
+  
   {% if hacks %}
       <ul>
         {% for hack in hacks %}
@@ -65,8 +66,6 @@
           <input type="hidden" name="verified" value="True" size="50"/>
 		
           <input type="submit" value="Request Verification" />
-
-
       </form>
 	  
   {% endif %}
