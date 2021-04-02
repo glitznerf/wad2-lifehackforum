@@ -15,14 +15,14 @@
       <h1>Create a new hack</h1>
 
 
-      <form id="create_hack_form" method="post" action="{% url 'forum:add_hack' 'category'  %}">
+      <form id="create_hack_form" method="post" action="{% url 'forum:add_hack' context.category.slug  %}">
           {% csrf_token %}
 		
           <label for="name"><b>Hack Name: </b></label>
           <input type="text" name="name" value="" size="50"/>
 
-          <label for="short_description"><b>Short description </b></label>
-          <input type="text" name="short_description" value="" size="50"/>
+          <label for="shortDescription"><b>Short description </b></label>
+          <input type="text" name="shortDescription" value="" size="50"/>
 
           <label for="description"><b>Describe the hack: </b></label>
           <input type="text" name="description" value="" size="60"/>
@@ -30,6 +30,8 @@
           <label for="image"><b>Add an image: </b></label>
           <input type="file" accept=" image/*" />
 
+
+			
           </br></br>
           <input type="submit" value="Submit" />
 

@@ -27,16 +27,16 @@ class CategoryForm(forms.ModelForm):
 
 class HackForm(forms.ModelForm):
     name = forms.CharField(max_length=30)
-    description = forms.CharField(max_length=500)
     shortDescription = forms.CharField(max_length=55)
+    description = forms.CharField(max_length=500)
     image = forms.ImageField(required=False)
     dateTimeCreated = forms.DateTimeField(widget=forms.HiddenInput(), required=False)
     slug = forms.SlugField(widget=forms.HiddenInput(), required=False)
-    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    #likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     class Meta:
         model = Hack
         fields = ('name', 'description', 'shortDescription',
-                  'slug', 'hackID', 'likes')
+                  'slug', 'hackID')
 
 class CommentForm(forms.ModelForm):
     text = forms.CharField(max_length=255)

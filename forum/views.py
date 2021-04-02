@@ -102,20 +102,25 @@ def hack(request,  hack_hack_slug, category_categoryName_slug = None):
 
 @login_required
 def add_hack(request, category_categoryName_slug):
+    print("########################"+ category_categoryName_slug+ "####################")
+    context_dict = {}
+    category = Category.objects.get(slug = category_categoryName_slug)
+    context_dict['category'] = category	
+    print("########################"+category.slug+ "####################")
     form = HackForm()
     if request.method == 'POST':
         form = HackForm(request.POST)
         if form.is_valid():
             newHack = form.save(commit=False)
-            newHack.user = UserAccount.objects.get(pk=request.user)
-            newHack.categoryName = Category.objects.filter(name = category_categoryName_slug)
-           
+            newHack.user = UserAccount.objects.get(user=request.user)
+            newHack.categoryName = Category.objects.get(slug = category_categoryName_slug)
+            newHack.likes = 0
             newHack.save()
             return redirect('/forum/all_categories/'+category_categoryName_slug+'/')
         else:
             print(form.errors)
-    context_dict = {}
-    return render(request, 'forum/add_hack.html', {'form': form})
+
+    return render(request, 'forum/add_hack.html', {'form': form, 'context' : context_dict})
 	
 ########################################## Account ###############################################
 
