@@ -73,7 +73,12 @@
 </div>
 
 <div class= "delete_account">
-  
+
+    <form id="delete_account_form" method="post" action="{% url 'forum:delete_account' %}">
+    
+      <input type="submit" value="Delete account" />
+    </form>
+
 </div>
 
 
