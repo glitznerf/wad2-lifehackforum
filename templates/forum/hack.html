@@ -3,6 +3,7 @@
 
 {% block css_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'hack.css' %}">
+<script type="text/javascript" src="{% static 'javascript/hack.js' %}"></script>
 {% endblock %}
 
 {% block title_block %}
@@ -35,7 +36,8 @@
 
 
       <div id="stars">
-        <img id="star" src="{% static 'images/star.png' %}" alt="Star" />
+        <a href="{% url 'forum:add_like' hack %}">
+        <img id="star" src="{% static 'images/star.png' %}" alt="Star" /></a>
         {{ hack.likes }}
       </div>
 
