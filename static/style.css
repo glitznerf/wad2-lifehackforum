@@ -29,11 +29,13 @@ html {
   font-weight: bold;
   background-color: #f8de7e;
 }
-#userspace a{
-  color: black;
-}
 #clear {
   clear: both;
+}
+
+a{
+  color: black;
+  text-decoration: none;
 }
 
 
