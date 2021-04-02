@@ -6,6 +6,7 @@ from forum.models import UserAccount, Category, Hack, Comment
 from django.db.models import Sum
 from django.db.models import F
 
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -102,11 +103,9 @@ def hack(request,  hack_hack_slug, category_categoryName_slug = None):
 
 @login_required
 def add_hack(request, category_categoryName_slug):
-    print("########################"+ category_categoryName_slug+ "####################")
     context_dict = {}
     category = Category.objects.get(slug = category_categoryName_slug)
     context_dict['category'] = category	
-    print("########################"+category.slug+ "####################")
     form = HackForm()
     if request.method == 'POST':
         form = HackForm(request.POST)
@@ -183,7 +182,7 @@ def sign_in(request):
 ########################################## Non Template Elements ############################################
 
 @login_required
-def delete_account():
+def delete_account(request):
     userID = request.user.get_username()
     users = User.objects.filter(username=userID)
     verified = UserAccount.objects.filter(user__in=users).delete()
