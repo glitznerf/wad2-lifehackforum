@@ -21,7 +21,7 @@
         <strong>Register here:</strong><br/>
         <form id="user_form" method="post" action="{% url 'forum:create_account' %}" enctype="multipart/form-data">
 
-            {% csrf_token %}
+            {% csrf_token %} 
             {{ user_form.as_p }}
             {{ profile_form.as_p }}
 
