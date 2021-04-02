@@ -10,6 +10,21 @@ html {
     padding: 1px 0px 1px;
 }  
 
+#description{
+    border: 1px solid rgb(136, 136, 136); 
+    padding: 5px; 
+    border-radius: 4px;
+    border-width: medium;
+    border-style: solid;
+    width: 100%; 
+}
+
+#description:hover{
+    background-color: rgba(236, 236, 236, 0.904);
+}
+
+
+
 input[type=text]{
     border: 1px solid rgb(136, 136, 136); 
     padding: 5px; 
