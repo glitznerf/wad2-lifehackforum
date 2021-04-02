@@ -152,7 +152,7 @@ def AddHack(name, description, shortDescription, likes, user, category):
     h.categoryName=category
     h.save()
     imageName = h.slug + '.jpg'
-    h.image.save(imageName, File(open('C:/Users/angus/Documents/Uni/2ndYear/computing/OOSE/team project/wad2-lifehackforum/media/populateImages/'+'POULATE-FILE ' + imageName, 'rb')))
+    h.image.save(imageName, File(open('media/populateImages/'+'POULATE-FILE ' + imageName, 'rb')))
     return h
 
 def AddComment(hack, user, text):
