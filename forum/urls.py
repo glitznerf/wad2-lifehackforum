@@ -27,6 +27,6 @@ path('hack/<slug:hack_hack_slug>/' ,views.hack, name = 'hack'),
 path('sign_out/', views.sign_out, name='sign_out'),
 path('<slug:hack_hack_slug>/add_comment/' , views.add_comment, name='add_comment'),
 path('request_verification/' , views.request_verification, name='request_verification'),
-path('hack/<slug:hack_hack_slug>/add_like', views.add_like, name = add_like),
-path('account_info/<slug:user_id_slug>/delete', views.delete_account, name = delete_account),
+path('hack/<slug:hack_hack_slug>/add_like', views.add_like, name = 'add_like'),
+path('account_info/<slug:user_id_slug>/delete', views.delete_account, name = 'delete_account'),
 ]
