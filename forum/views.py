@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from forum.models import UserAccount, Category, Hack, Comment
 from django.db.models import Sum
+from django.db.models import F
 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -176,6 +177,10 @@ def sign_in(request):
 
 ########################################## Non Template Elements ############################################
 
+def add_like(request, hack_hack_slug):
+	Hack.objects.filter(hackID__in = hack_hack_slug).update(likes=F('likes')+1)
+	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
 @login_required
 def sign_out(request):
 	logout(request)
@@ -206,5 +211,4 @@ def request_verification(request):
 		verified = UserAccount.objects.filter(user__in=users, verified=True)
 		UserAccount.objects.filter(user__in = users).update(verified=True)
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
-
 
