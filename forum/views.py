@@ -56,7 +56,7 @@ def category(request, category_categoryName_slug):
 	context_dict = {}
 	try:
 		category = Category.objects.get(slug=category_categoryName_slug)
-		hacks = Hack.objects.filter(categoryName=category)
+		hacks = Hack.objects.filter(categoryName=category).order_by('-dateTimeCreated')
 		context_dict['hacks'] = hacks
 		context_dict['category'] = category
 		
@@ -85,7 +85,7 @@ def hack(request,  hack_hack_slug, category_categoryName_slug = None):
 	context_dict = {}
 	try:
 		hack = Hack.objects.get(hackID = hack_hack_slug)
-		comment_list = Comment.objects.filter(hackID = hack)
+		comment_list = Comment.objects.filter(hackID = hack).order_by('-dateTimeCreated')
 		
 		if hack.image.url == "/media/default.jpg":
 			context_dict['not_default']=False
@@ -122,7 +122,7 @@ def add_hack(request, category_categoryName_slug):
 def account_info(request, user_id_slug):
 	context_dict = {}
 	
-	hack_list = Hack.objects.filter(user__user = request.user)
+	hack_list = Hack.objects.filter(user__user = request.user).order_by('-dateTimeCreated')
 	
 	context_dict['hacks'] = hack_list
 	
