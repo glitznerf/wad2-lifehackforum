@@ -35,7 +35,7 @@
   {% if hacks %}
       <ul>
         {% for hack in hacks %}
-          <a href="{% url 'forum:just_hack' hack.hackID %}">
+          <a href="{% url 'forum:hack' hack.hackID %}">
             <div class="category_entry">
               <li>
                 <h2>{{ hack.name }} </h2><br />
@@ -71,4 +71,10 @@
 	  
   {% endif %}
 </div>
+
+<div class= "delete_account">
+  
+</div>
+
+
 {% endblock %}

@@ -27,7 +27,7 @@ html {
 /*submit button adjustments*/
 .input[type=button], input[type=submit] {
 
-    background-color: #67f16e;
+    background-color: #8ab9f1;
     border: none;
     color: white;
     padding: 16px 32px;
@@ -39,6 +39,6 @@ html {
 
 /*submit button adjustments on hover*/
 .input[type=submit]:hover {
-    background-color: #6982a0 ;
+    background-color: #679BF1 ;
 }
 

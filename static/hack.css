@@ -49,11 +49,23 @@
   width: 78%;
 }
 
-#comments, #add_comment {
+#comments, #addComment {
   float: left;
   background-color: #f8de7e;
   width: 50%;
+  height:200px;
+  overflow: scroll;
 }
+
+#add_comment {
+    width: 100%;
+}
+
+#new_comment {
+  width: 80%;
+  height: 70px;
+}
+
 #subhead {
   width: 80%;
   background-color: #ffc40a;
