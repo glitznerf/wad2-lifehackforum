@@ -108,7 +108,7 @@ def add_hack(request, category_categoryName_slug):
     context_dict['category'] = category	
     form = HackForm()
     if request.method == 'POST':
-        form = HackForm(request.POST)
+        form = HackForm(request.POST, request.FILES)
         if form.is_valid():
             newHack = form.save(commit=False)
             newHack.user = UserAccount.objects.get(user=request.user)

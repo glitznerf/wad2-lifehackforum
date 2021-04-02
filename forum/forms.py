@@ -32,11 +32,10 @@ class HackForm(forms.ModelForm):
     image = forms.ImageField(required=False)
     dateTimeCreated = forms.DateTimeField(widget=forms.HiddenInput(), required=False)
     slug = forms.SlugField(widget=forms.HiddenInput(), required=False)
-    #likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     class Meta:
         model = Hack
-        fields = ('name', 'description', 'shortDescription',
-                  'slug', 'hackID')
+        fields = ('name','shortDescription','description','image',
+                  'slug', 'hackID', )
 
 class CommentForm(forms.ModelForm):
     text = forms.CharField(max_length=255)
