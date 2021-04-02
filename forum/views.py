@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+
 from forum.models import UserAccount, Category, Hack, Comment
-from django.db.models import Sum
-from django.db.models import F
-
-
+from django.db.models import Sum, F
 from django.contrib.auth.models import User
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
 from forum.forms import CategoryForm, HackForm, UserForm, UserAccountForm, CommentForm
 
 ########################################## Base ###############################################
@@ -25,29 +25,33 @@ def home(request):
 	
 	
 def about(request):
-	#???????????????????#
+	#information page
 	context_dict = {}
 	return render(request, 'forum/about.html', context=context_dict)
 
 ########################################## Category ###############################################
-@login_required
-def create_category(request):
-    form = CategoryForm()
-    userID = request.user.get_username()
-    users = User.objects.filter(username=userID)
-    verified = UserAccount.objects.filter(user__in=users, verified=True)
 
+def create_category(request):
+	#If the request is a HTTP POST, try to pull out the relevant information.
+    form = CategoryForm()
+	#get user ID
+    userID = request.user.get_username()
+	#get user object
+    users = User.objects.filter(username=userID)
+	#get if user is verified
+    verified = UserAccount.objects.filter(user__in=users, verified=True)
     if (verified):
         if request.method == 'POST':
             form = CategoryForm(request.POST)
             if form.is_valid():
                 newCat = form.save(commit=False)
+				#add user details to category
                 newCat.user = UserAccount.objects.get(pk=request.user)
+				#save details
                 newCat.save()
                 return redirect('/forum/all_categories')
         else:
             print(form.errors)
-
 
         return render(request, 'forum/create_category.html', {'form': form})
 
@@ -57,23 +61,25 @@ def create_category(request):
 def category(request, category_categoryName_slug):
 	context_dict = {}
 	try:
+		#pass category object and list of hacks in that category order most recent
 		category = Category.objects.get(slug=category_categoryName_slug)
 		hacks = Hack.objects.filter(categoryName=category).order_by('-dateTimeCreated')
 		context_dict['hacks'] = hacks
 		context_dict['category'] = category
-		
+		#handle faulty category
 	except Category.DoesNotExist:
 		context_dict['category'] = None
-		context_dict['pages'] = None
+		context_dict['hacks'] = None
 	return render(request, 'forum/category.html', context=context_dict)	
 
 def all_categories(request):
 	userID =request.user.get_username()
 	users = User.objects.filter(username=userID)
+	#pass verified to see if add category button is accessible
 	verified = UserAccount.objects.filter(user__in=users, verified=True)
-	
-	#search bar not included
+
 	context_dict = {}
+	#pass all catgegories ordered alphabetically
 	category_list = Category.objects.order_by('-categoryName')
 	context_dict['categories'] = category_list
 	context_dict['verified'] = verified
@@ -86,9 +92,12 @@ def all_categories(request):
 def hack(request,  hack_hack_slug, category_categoryName_slug = None):	
 	context_dict = {}
 	try:
+		#get and pass hack object
 		hack = Hack.objects.get(hackID = hack_hack_slug)
+		#get and pass comments for that hack order most recent
 		comment_list = Comment.objects.filter(hackID = hack).order_by('-dateTimeCreated')
 		
+		#pass if image is default to see if should be displayed
 		if hack.image.url == "/media/default.jpg":
 			context_dict['not_default']=False
 		else:	
@@ -104,6 +113,7 @@ def hack(request,  hack_hack_slug, category_categoryName_slug = None):
 @login_required
 def add_hack(request, category_categoryName_slug):
     context_dict = {}
+	#get and pass category object that hack will belong to
     category = Category.objects.get(slug = category_categoryName_slug)
     context_dict['category'] = category	
     form = HackForm()
@@ -111,8 +121,10 @@ def add_hack(request, category_categoryName_slug):
         form = HackForm(request.POST, request.FILES)
         if form.is_valid():
             newHack = form.save(commit=False)
+			# add user and category detials to hack
             newHack.user = UserAccount.objects.get(user=request.user)
             newHack.categoryName = Category.objects.get(slug = category_categoryName_slug)
+			#initailise likes to 0
             newHack.likes = 0
             newHack.save()
             return redirect('/forum/all_categories/'+category_categoryName_slug+'/')
@@ -127,8 +139,8 @@ def add_hack(request, category_categoryName_slug):
 def account_info(request, user_id_slug):
 	context_dict = {}
 	
+	#get and pass all hacks created by that user order by most recent 
 	hack_list = Hack.objects.filter(user__user = request.user).order_by('-dateTimeCreated')
-	
 	context_dict['hacks'] = hack_list
 	
 	response = render(request, 'forum/account_info.html', context=context_dict)
@@ -141,6 +153,7 @@ def create_account(request):
 		profile_form = UserAccountForm(request.POST)
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
+			#add details to useraccount and profile
 			user.set_password(user.password)
 			user.save()
 			profile = profile_form.save(commit=False)
@@ -190,6 +203,7 @@ def delete_account(request):
     return redirect(reverse('forum:home'))
 
 def add_like(request, hack_hack_slug):
+	#update hack objects like by 1
 	Hack.objects.filter(hackID__in = hack_hack_slug).update(likes=F('likes')+1)
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
@@ -206,10 +220,12 @@ def add_comment(request, hack_hack_slug):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
+			#add details to new comment
             newComm = form.save(commit=False)
             newComm.user = UserAccount.objects.get(pk=request.user)
             newComm.hackID = Hack.objects.get(pk = hack_hack_slug)
             newComm.save()
+			#redirect back to pervious page
             return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
         else:
             print(form.errors)
@@ -217,10 +233,12 @@ def add_comment(request, hack_hack_slug):
 @login_required
 def request_verification(request):
 	sum = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
+	#test if user has reached enough levels of likes on hacks
 	if (sum >= 200):
 		userID = request.user.get_username()
 		users = User.objects.filter(username=userID)
 		verified = UserAccount.objects.filter(user__in=users, verified=True)
 		UserAccount.objects.filter(user__in = users).update(verified=True)
+		#redirect back to pervious page
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
