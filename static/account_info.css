@@ -7,6 +7,8 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
+    position: relative;
+    left: 30px;
   }
 
 .button1 {background-color:#679BF1 } 
@@ -21,6 +23,8 @@
   line-height:3em;
   overflow:scroll;
   padding:5px;
+  position: relative;
+  left: 30px;
 }
 
 input[type=button], input[type=submit] {

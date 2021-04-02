@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block css_block %}
-<link rel="stylesheet" type="text/css" href="{% static 'sign_in.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'add_hack.css' %}">
 {% endblock %}
 
 {% block title_block %}
@@ -12,7 +12,7 @@
 
 {% block body_block %}
       <div id=sign_in_box>
-      <h1>Create New Hacks.R.Us Hack</h1>
+      <h1>Create a new hack</h1>
 
 
       <form id="create_hack_form" method="post" action="{% url 'forum:add_hack' 'category'  %}">
@@ -20,8 +20,17 @@
 		
           <label for="name"><b>Hack Name: </b></label>
           <input type="text" name="name" value="" size="50"/>
-		  
-		  
+
+          <label for="description"><b>Short description </b></label>
+          <input type="text" name="description" value="" size="50"/>
+
+          <label for="description"><b>Describe the hack: </b></label>
+          <input type="text" name="description" value="" size="60"/>
+          
+          <label for="image"><b>Add an image: </b></label>
+          <input type="file" accept=" image/*" />
+
+          </br></br>
           <input type="submit" value="Submit" />
 
 

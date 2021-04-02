@@ -1,0 +1,44 @@
+/* General page adjustments such as font */
+html {
+    font-family: sans-serif;
+  }
+
+#page_content {
+
+    text-align: left;
+    margin: 15px 650px 15px;
+    padding: 1px 0px 1px;
+}  
+
+.input[type=text]{
+    border: 1px solid rgb(136, 136, 136); 
+    padding: 5px; 
+  }
+
+.input[type=description]{
+
+    width: 90px; 
+    height: 390px; 
+    border: 1px solid rgb(136, 136, 136); 
+    padding: 5px; 
+    
+}
+
+/*submit button adjustments*/
+.input[type=button], input[type=submit] {
+
+    background-color: #67f16e;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/*submit button adjustments on hover*/
+.input[type=submit]:hover {
+    background-color: #6982a0 ;
+}
+
