@@ -177,6 +177,14 @@ def sign_in(request):
 
 ########################################## Non Template Elements ############################################
 
+@login_required
+def delete_account():
+	userID = request.user.get_username()
+    users = User.objects.filter(username=userID)
+    verified = UserAccount.objects.filter(user__in=users).delete()
+	users.delete()
+	return redirect(reverse('forum:home'))
+
 def add_like(request, hack_hack_slug):
 	Hack.objects.filter(hackID__in = hack_hack_slug).update(likes=F('likes')+1)
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
