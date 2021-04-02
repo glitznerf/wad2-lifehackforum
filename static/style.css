@@ -29,11 +29,13 @@ html {
   font-weight: bold;
   background-color: #f8de7e;
 }
-#userspace a{
-  color: black;
-}
 #clear {
   clear: both;
+}
+
+a{
+  color: black;
+  text-decoration: none;
 }
 
 
@@ -46,7 +48,6 @@ html {
 }
 #menu ul{
   display: flex;
-  align-items: stretch; /* Default */
   justify-content: space-between;
   margin: 0;
   padding-left: 100px;
@@ -54,7 +55,6 @@ html {
 }
 #menu li{
   display: block;
-  flex: 0 1 auto; /* Default */
   list-style-type: none;
 }
 

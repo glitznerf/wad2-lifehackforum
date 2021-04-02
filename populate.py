@@ -6,7 +6,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 import django
 
 django.setup()
-
+from django.core.files import File
 from forum.models import UserAccount, Category, Hack, Comment
 from datetime import datetime
 from pytz import utc
@@ -15,14 +15,14 @@ from django.contrib.auth.models import User
 
 def populate():
     userInfo = [     
-         {'user': 'adamr55',
-          'email': 'adamr55@gmail.com',
-          'password': 'testPass1',
-          'verified': True},
-         {'user': 'sarahp3',
-         'email': 'sarahp3@gmail.com',
-          'password': 'testPass2',
+         {'user': 'Amanda',
+          'email': 'Amanda99@gmail.com',
+          'password': 'AmandaPass1',
           'verified': False},
+         {'user': 'Charlie',
+         'email': 'Charlie66@gmail.com',
+          'password': 'CharliePass2',
+          'verified': True},
          {'user': 'lifehackfan',
          'email': 'lifehackfan@gmail.com',
           'password': 'testPass3',
@@ -41,21 +41,21 @@ def populate():
     
     
     categoryInfo = [{
-           'categoryName': 'Cleaning',
+           'categoryName': 'gaming ',
            'user': userAccounts[0],
-           'description': 'hackInfo related to cleaning'},
+           'description': 'Hacks related to gaming'},
           {'categoryName': 'Beauty and Fashion',
            'user': userAccounts[0],
-           'description': 'hackInfo related to beauty and fashion'},
+           'description': 'Hacks related to beauty and fashion'},
           {'categoryName': 'Parenting',
            'user': userAccounts[3],
-           'description': 'hackInfo related to being a parent'},
+           'description': 'Hacks related to being a parent'},
           {'categoryName': 'Organising',
            'user': userAccounts[3],
-           'description': 'hackInfo related to organising'},
+           'description': 'Hacks related to Organising'},
           {'categoryName': 'Cooking',
            'user': userAccounts[4],
-           'description': 'hackInfo related to food and cooking.'}]
+           'description': 'Hacks related to food and cooking.'}]
     for info in categoryInfo:
         category = AddCategory(info['categoryName'], info['user'], info['description'])
         hackInfo = [{
@@ -103,16 +103,16 @@ def populate():
                  'text': 'Wow, so helpful thanks!'},
                 {'hack': hack,
                  'user': userAccounts[1],
-                 'text': 'Great hack, saved my favorite jeans'},
+                 'text': 'Great hack'},
                 {'hack': hack,
                  'user': userAccounts[2],
-                 'text': 'Cant wait to try this when the sun comes out.'},
+                 'text': 'Cant wait to try this out.'},
                 {'hack': hack,
                  'user': userAccounts[3],
-                 'text': 'Great tip for reducing plastic waste, thank you!'},
+                 'text': 'Great tip, thank you!'},
                 {'hack': hack,
                  'user': userAccounts[4],
-                 'text': 'No more chipped plates!'}
+                 'text': 'Thats so cool!'}
                 ]
             for comment in comments:
                 AddComment(comment['hack'], comment['user'], comment['text'])
@@ -151,6 +151,8 @@ def AddHack(name, description, shortDescription, likes, user, category):
     h.user=user
     h.categoryName=category
     h.save()
+    imageName = h.slug + '.jpg'
+    h.image.save(imageName, File(open('media/populateImages/'+'POULATE-FILE ' + imageName, 'rb')))
     return h
 
 def AddComment(hack, user, text):
