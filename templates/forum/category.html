@@ -3,6 +3,7 @@
 
 {% block css_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'all_categories.css' %}">
+<script type="text/javascript" src="{% static 'javascript/search.js' %}"></script>
 {% endblock %}
 
 {% block title_block %}
@@ -30,7 +31,8 @@
     </div>
 
     {% if hacks %}
-      <ul>
+      <input type="text" id="searchBar" placeholder="Search for hack..."><br /><br />
+      <ul id="list">
         {% for hack in hacks %}
           <a href="{% url 'forum:hack' category.slug hack.hackID %}">
             <div class="category_entry">

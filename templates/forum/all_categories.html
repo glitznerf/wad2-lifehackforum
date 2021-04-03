@@ -3,6 +3,7 @@
 
 {% block css_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'all_categories.css' %}">
+<script type="text/javascript" src="{% static 'javascript/search.js' %}"></script>
 {% endblock %}
 
 {% block title_block %}
@@ -23,8 +24,9 @@
     <h1>All Categories</h1>
   </div>
 
-  <ul>
+  <ul id="list">
     {% if categories %}
+      <input type="text" id="searchBar" placeholder="Search for category..."><br /><br /><br />
       {% for c in categories %}
         <a href="{% url 'forum:category' c.slug %}">
           <div class="category_entry">

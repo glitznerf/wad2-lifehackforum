@@ -13,8 +13,16 @@
 #content_h {
   background-color: #8ab9f1;
   text-align: center;
+  text-transform: capitalize;
   margin: 15px 400px 15px;
   padding: 1px 0px 1px;
+}
+
+#searchBar {
+  position: absolute;
+  left: 10%;
+  min-height: 30px;
+  min-width: 25%;
 }
 
 .category_entry {
@@ -25,6 +33,7 @@
   border-color: #8ab9f1;
   margin-bottom: 10px;
   background-color: rgba(236, 236, 236, 0.904);
+  text-transform: capitalize;
 }
 
 ul {

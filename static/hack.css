@@ -38,14 +38,14 @@
 
 #img{
   max-width: 20%;
-  max-height: 200px;
+  max-height: 180px;
   position: absolute;
   top: 75px;
   right: 35px;
 }
 
 #desc {
-  min-height: 150px;
+  min-height: 130px;
   background-color: #f8de7e;
   width: 76%;
 }
