@@ -18,6 +18,21 @@
         <a href="{% url 'forum:home' %}">Return to the homepage.</a><br/>
     {% else %}
 		
+		{% if form.errors %}
+			{% for field in form %}
+				{% for error in field.errors %}
+					<div class="ERROR"
+						<strong>{{ error|escape }}</strong>
+					</div>
+				{% endfor %}
+			{% endfor %}
+			{% for error in form.non_field_errors %}
+				<div class="ERROR">
+					<strong>{{ error|escape }}</strong>
+				</div>
+			{% endfor %}
+		{% endif %}
+		
         <strong>Register here:</strong><br/>
         <form id="user_form" method="post" action="{% url 'forum:create_account' %}" enctype="multipart/form-data">
 
