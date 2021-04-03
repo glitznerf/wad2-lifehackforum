@@ -1,11 +1,18 @@
 #category {
   background: #050505;
-  width: 10%;
-  height: 25px;
   color: white;
   text-decoration: none;
   text-transform: uppercase;
   text-align: center;
+
+  justify-content: center;
+  border-radius: 4px;
+
+  
+  border: none;
+  padding: 16px 32px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
 #hackBody {

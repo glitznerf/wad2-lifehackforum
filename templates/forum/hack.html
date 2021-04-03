@@ -17,9 +17,7 @@
 {% block body_block %}
   {% if hack %}
     <a href="{% url 'forum:category' hack.categoryName %}" id="category">
-      <div id="category">
-        {{ hack.categoryName }}
-      </div>
+      <button type="button" id="category">{{ hack.categoryName }}</button> 
     </a>
 
     <div id="hackBody">
