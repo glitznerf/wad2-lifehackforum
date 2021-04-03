@@ -19,10 +19,8 @@
   {% if category %}
 
     {% if user.is_authenticated %}
-      <a href="{% url 'forum:add_hack' category.slug %}" id="addhack">
-        <div id="addhack">
-          Add Hack
-        </div>
+      <a href="{% url 'forum:add_hack' category.slug %}" id="addhack">       
+          <button type="button" id="addhack">Add hack</button>      
       </a>
     {% endif %}
 

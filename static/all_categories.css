@@ -2,12 +2,48 @@
   text-align: center;
   justify-content: center;
   background: #050505;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 4px;
+
+  
+  border: none;
+  padding: 16px 32px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+#addhack:hover {
+  background: #3a3a3a;
+}
+
+#add_category {
+  text-align: center;
+  justify-content: center;
+  background: #050505;
   width: 10%;
   height: 22px;
   color: white;
   text-decoration: none;
   text-transform: uppercase;
   border-radius: 4px;
+
+  
+  border: none;
+  padding: 16px 32px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+#add_category:hover {
+  background: #3a3a3a;
+}
+
+/*submit button adjustments on hover*/
+input[type=submit]:hover {
+    background-color: #679BF1;
+}
 }
 
 #content_h {
