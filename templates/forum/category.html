@@ -29,7 +29,7 @@
     </div>
 
     {% if hacks %}
-      <input type="text" id="searchBar" placeholder="Search for hack..."><br /><br />
+      <input type="text" id="searchBar" placeholder="  Search for hack..."><br /><br />
       <ul id="list">
         {% for hack in hacks %}
           <a href="{% url 'forum:hack' category.slug hack.hackID %}">

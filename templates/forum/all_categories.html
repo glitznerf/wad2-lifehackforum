@@ -24,7 +24,7 @@
 
   <ul id="list">
     {% if categories %}
-      <input type="text" id="searchBar" placeholder="Search for category..."><br /><br /><br />
+      <input type="text" id="searchBar" placeholder="  Search for category..."><br /><br /><br />
       {% for c in categories %}
         <a href="{% url 'forum:category' c.slug %}">
           <div class="category_entry">
