@@ -3,6 +3,7 @@
 
 {% block css_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'account_info.css' %}">
+<script type="text/javascript" src="{% static 'javascript/account_info.js' %}"></script>
 {% endblock %}
 
 {% block title_block %}
@@ -25,13 +26,13 @@
 
 </div>
 
-<div> 
+<div>
   <h3>Posts</h3>
 </div>
 
 <!--posts-->
 <div class="hacks">
-  
+
   {% if hacks %}
       <ul>
         {% for hack in hacks %}
@@ -48,7 +49,7 @@
       {% else %}
         You haven't added any hacks to the forum yet.
           Now is the best time!
-        
+
       {% endif %}
       <br></br>
 </div>
@@ -58,25 +59,27 @@
 
   {% if verified %}
     <strong>You are a verified user</strong>
-  {% else %}  
+  {% else %}
 
 
       <form id="request_verification_form" method="post" action="{% url 'forum:request_verification' %}">
           {% csrf_token %}
-	
+
           <input type="hidden" name="verified" value="True" size="50"/>
-		
+
           <input type="submit" value="Request Verification" />
       </form>
-	  
+
   {% endif %}
 </div>
 
 <div class= "delete_account">
 
-    <form id="delete_account_form" method="post" action="{% url 'forum:delete_account' %}">
-    
-      <input type="submit" value="Delete account" />
+    <form id="delete_account_form" method="post" action="{% url 'forum:delete_account' user %}">
+        {% csrf_token %}
+
+      <input type="button" id="checkDeleteButton" value="Delete account" />
+      <input type="submit" style="visibility: hidden" id="submitButton" value="Delete account" />
     </form>
 
 </div>

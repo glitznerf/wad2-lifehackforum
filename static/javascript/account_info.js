@@ -1,7 +1,11 @@
 window.onload = function () {
-  let del = document.getElementById("delete_account_form")
-  del.addEventListener("mouseover", confirmation());
-  function confirmation() {
-    return confirm('Do you really want to delete your account?');
+  let delCheck = document.getElementById("checkDeleteButton");
+  delCheck.addEventListener("click", confirmation);
+}
+
+function confirmation() {
+  if(confirm('Do you really want to delete your account?')) {
+    let del = document.getElementById("submitButton");
+    del.click();
   }
 }

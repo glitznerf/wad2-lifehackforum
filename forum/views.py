@@ -18,12 +18,12 @@ def home(request):
 
 	hackList = Hack.objects.order_by('-likes')[:3]
 	context_dict = {}
-	
+
 	context_dict['hacks'] = hackList
 	response = render(request, 'forum/home.html', context=context_dict)
 	return response
-	
-	
+
+
 def about(request):
 	#information page
 	context_dict = {}
@@ -57,7 +57,7 @@ def create_category(request):
 
     return HttpResponse("This page is exclusively for verified users \n If you believe you are verified please use the check verification button on your account info page \n backspace to return to home page")
 
-	
+
 def category(request, category_categoryName_slug):
 	context_dict = {}
 	try:
@@ -70,7 +70,7 @@ def category(request, category_categoryName_slug):
 	except Category.DoesNotExist:
 		context_dict['category'] = None
 		context_dict['hacks'] = None
-	return render(request, 'forum/category.html', context=context_dict)	
+	return render(request, 'forum/category.html', context=context_dict)
 
 def all_categories(request):
 	userID =request.user.get_username()
@@ -89,23 +89,23 @@ def all_categories(request):
 
 
 ########################################## Hack ###############################################
-def hack(request,  hack_hack_slug, category_categoryName_slug = None):	
+def hack(request,  hack_hack_slug, category_categoryName_slug = None):
 	context_dict = {}
 	try:
 		#get and pass hack object
 		hack = Hack.objects.get(hackID = hack_hack_slug)
 		#get and pass comments for that hack order most recent
 		comment_list = Comment.objects.filter(hackID = hack).order_by('-dateTimeCreated')
-		
+
 		#pass if image is default to see if should be displayed
 		if hack.image.url == "/media/default.jpg":
 			context_dict['not_default']=False
-		else:	
+		else:
 			context_dict['not_default']=True
-		
+
 		context_dict['hack'] = hack
 		context_dict['comments'] = comment_list
-		
+
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
 	return render(request, 'forum/hack.html', context=context_dict)
@@ -115,7 +115,7 @@ def add_hack(request, category_categoryName_slug):
     context_dict = {}
 	#get and pass category object that hack will belong to
     category = Category.objects.get(slug = category_categoryName_slug)
-    context_dict['category'] = category	
+    context_dict['category'] = category
     form = HackForm()
     if request.method == 'POST':
         form = HackForm(request.POST, request.FILES)
@@ -132,17 +132,17 @@ def add_hack(request, category_categoryName_slug):
             print(form.errors)
 
     return render(request, 'forum/add_hack.html', {'form': form, 'context' : context_dict})
-	
+
 ########################################## Account ###############################################
 
 @login_required
 def account_info(request, user_id_slug):
 	context_dict = {}
-	
-	#get and pass all hacks created by that user order by most recent 
+
+	#get and pass all hacks created by that user order by most recent
 	hack_list = Hack.objects.filter(user__user = request.user).order_by('-dateTimeCreated')
 	context_dict['hacks'] = hack_list
-	
+
 	response = render(request, 'forum/account_info.html', context=context_dict)
 	return response
 
@@ -174,9 +174,9 @@ def sign_in(request):
 		# Get username & password from the login form.
 		username = request.POST.get('username')
 		password = request.POST.get('password')
-		
+
 		user = authenticate(username=username, password=password)
-		
+
 		if user: #test user returned
 			if user.is_active: #test not disabled
 				login(request, user) #send login
@@ -195,7 +195,7 @@ def sign_in(request):
 ########################################## Non Template Elements ############################################
 
 @login_required
-def delete_account(request):
+def delete_account(request, user_id_slug):
     userID = request.user.get_username()
     users = User.objects.filter(username=userID)
     verified = UserAccount.objects.filter(user__in=users).delete()
@@ -213,7 +213,7 @@ def sign_out(request):
 	#user back to the home.
 	return redirect(reverse('forum:home'))
 
-	
+
 @login_required
 def add_comment(request, hack_hack_slug):
     form = CommentForm()
@@ -229,7 +229,7 @@ def add_comment(request, hack_hack_slug):
             return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
         else:
             print(form.errors)
-			
+
 @login_required
 def request_verification(request):
 	sum = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
@@ -241,4 +241,3 @@ def request_verification(request):
 		UserAccount.objects.filter(user__in = users).update(verified=True)
 		#redirect back to pervious page
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
-
