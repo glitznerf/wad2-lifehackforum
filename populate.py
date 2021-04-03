@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 
 
 def populate():
-    userInfo = [     
+    userInfo = [
          {'user': 'Amanda',
           'email': 'Amanda99@gmail.com',
           'password': 'AmandaPass1',
@@ -38,10 +38,10 @@ def populate():
     userAccounts = []
     for info in userInfo:
         userAccounts.append(AddUserAccount(info['user'], info['email'], info['password'], info['verified']))
-    
-    
-    categoryInfo = [{
-           'categoryName': 'gaming ',
+
+
+    categoryInfo = [
+          {'categoryName': 'Gaming',
            'user': userAccounts[0],
            'description': 'Hacks related to gaming'},
           {'categoryName': 'Beauty and Fashion',
@@ -95,7 +95,7 @@ def populate():
               'category': category}
               ]
         for info in hackInfo:
-            hack = AddHack(info['name'], info['description'], info['shortDescription'], 
+            hack = AddHack(info['name'], info['description'], info['shortDescription'],
                         info['likes'], info['user'], info['category'])
             comments = [
                 {'hack': hack,
@@ -116,7 +116,7 @@ def populate():
                 ]
             for comment in comments:
                 AddComment(comment['hack'], comment['user'], comment['text'])
-                    
+
 
 
 

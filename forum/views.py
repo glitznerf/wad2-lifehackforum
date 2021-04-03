@@ -143,6 +143,23 @@ def account_info(request, user_id_slug):
 	hack_list = Hack.objects.filter(user__user = request.user).order_by('-dateTimeCreated')
 	context_dict['hacks'] = hack_list
 
+	#get total number of likes of user
+	likes = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
+	if type(likes) != int:
+		likes = 0
+	context_dict['likes'] = likes
+
+	if likes>=200:
+		context_dict['enoughlikes'] = True
+	else:
+		context_dict['enoughlikes'] = False
+
+	userID =request.user.get_username()
+	users = User.objects.filter(username=user_id_slug)
+	#pass verified to see if add category button is accessible
+	verified = UserAccount.objects.filter(user__in=users, verified=True)
+	context_dict['verified'] = verified
+
 	response = render(request, 'forum/account_info.html', context=context_dict)
 	return response
 
@@ -234,7 +251,7 @@ def add_comment(request, hack_hack_slug):
 def request_verification(request):
 	sum = Hack.objects.filter(user__user = request.user).aggregate(Sum('likes'))['likes__sum']
 	#test if user has reached enough levels of likes on hacks
-	if (sum >= 200):
+	if (type(sum) == int and sum >= 200):
 		userID = request.user.get_username()
 		users = User.objects.filter(username=userID)
 		verified = UserAccount.objects.filter(user__in=users, verified=True)

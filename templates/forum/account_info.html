@@ -60,8 +60,7 @@
   {% if verified %}
     <strong>You are a verified user</strong>
   {% else %}
-
-
+    {% if enoughlikes %}
       <form id="request_verification_form" method="post" action="{% url 'forum:request_verification' %}">
           {% csrf_token %}
 
@@ -69,7 +68,9 @@
 
           <input type="submit" value="Request Verification" />
       </form>
-
+    {% else %}
+      <p>You have {{ likes }} total likes on your posts. To be verified you need at least 200 likes. </p>
+    {% endif %}
   {% endif %}
 </div>
 
