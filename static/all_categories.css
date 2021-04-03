@@ -87,6 +87,12 @@ input[type=submit]:hover {
   text-transform: capitalize;
 }
 
+.category_entry:hover {
+  width: 98%;
+  height: 130px;
+  border-color: #f8de7e;
+}
+
 ul {
   list-style-type: none;
 }
