@@ -221,7 +221,7 @@ def delete_account(request, user_id_slug):
 
 def add_like(request, hack_hack_slug):
 	#update hack objects like by 1
-	Hack.objects.filter(hackID__in = hack_hack_slug).update(likes=F('likes')+1)
+	Hack.objects.filter(hackID= hack_hack_slug).update(likes=F('likes')+1)
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 @login_required
