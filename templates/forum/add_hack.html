@@ -12,8 +12,22 @@
 
 {% block body_block %}
       <div id=sign_in_box>
-      <h1>Create a new hack</h1>
+      <h1>Create a new hack for {{context.category.categoryName}} </h1>
 
+	{% if form.errors %}
+			{% for field in form %}
+				{% for error in field.errors %}
+					<div class="ERROR"
+						<strong>{{ error|escape }}</strong>
+					</div>
+				{% endfor %}
+			{% endfor %}
+			{% for error in form.non_field_errors %}
+				<div class="ERROR">
+					<strong>{{ error|escape }}</strong>
+				</div>
+			{% endfor %}
+		{% endif %}
 
       <form id="create_hack_form" method="post" enctype="multipart/form-data"action="{% url 'forum:add_hack' context.category.slug  %}">
           {% csrf_token %}

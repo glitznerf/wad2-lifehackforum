@@ -186,6 +186,7 @@ def create_account(request):
 				'profile_form': profile_form, 'registered': registered})
 
 def sign_in(request):
+	message = None
 	# If the request is a HTTP POST, try to pull out the relevant information.
 	if request.method == 'POST':
 		# Get username & password from the login form.
@@ -200,14 +201,14 @@ def sign_in(request):
 				return redirect(reverse('forum:home')) #return home
 			else:
 				#inactive account!
-				return HttpResponse("Your Hacks R Us has been disabled")
+				message = "Your Hacks R Us has been disabled"
 		else:
 			# Bad login details
-			print(f"Invalid login details: {username}, {password}")
-			return HttpResponse("invalid username and/or password")
+			message = "Invalid login details"
+			return render(request, 'forum/sign_in.html', {'error': message})
 	else:
 		# No context variables to pass to the template system
-		return render(request, 'forum/sign_in.html')
+		return render(request, 'forum/sign_in.html', {'error': message})
 
 ########################################## Non Template Elements ############################################
 
