@@ -80,7 +80,7 @@ def all_categories(request):
 
 	context_dict = {}
 	#pass all catgegories ordered alphabetically
-	category_list = Category.objects.order_by('-categoryName')
+	category_list = Category.objects.order_by('categoryName')
 	context_dict['categories'] = category_list
 	context_dict['verified'] = verified
 	response = render(request, 'forum/all_categories.html', context=context_dict)
