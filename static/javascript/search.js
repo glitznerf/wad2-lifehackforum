@@ -1,9 +1,11 @@
+
+// Add event listeners at opening
 window.onload = function () {
   let search = document.getElementById("searchBar");
   search.addEventListener("keyup", searchFct);
 }
 
-
+// Search bar implementation for content that's already on site
 function searchFct() {
   // Variable declaration
   var search, filter, list, entries, entry, i, entryValue;

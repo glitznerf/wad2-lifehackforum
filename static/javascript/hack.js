@@ -1,3 +1,5 @@
+
+// Add event listeners at opening
 window.onload = function () {
   let star = document.getElementById("star");
   star.addEventListener("click", starTransform);
@@ -6,11 +8,13 @@ window.onload = function () {
   commentCheck.addEventListener("click", checkComment);
 }
 
+// Resize star image
 function starTransform() {
   star.style.backgroundColor="yellow";
   star.style.width="500px";
 }
 
+// Check that comment text is not empty
 function checkComment() {
   let comment = document.getElementById("new_comment");
   entryValue = comment.value;
