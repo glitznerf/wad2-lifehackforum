@@ -4,40 +4,42 @@ import warnings
 import importlib
 from forum.models import UserAccount, Category, Hack, Comment
 from populate import populate
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.test import TestCase
 from django.conf import settings
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 from django.db.models import Sum, F
 from django.forms import fields as django_fields
+from django.test import Client
 
 
 HEADER = f"{os.linesep}{os.linesep}{os.linesep}================{os.linesep}LifeHackForum TEST FAILURE {os.linesep}================{os.linesep}"
 FOOTER = f"{os.linesep}"
-
+FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}================{os.linesep}LifeHackForum TEST FAILURE {os.linesep}================{os.linesep}"
+FAILURE_FOOTER = f"{os.linesep}"
 
 def create_user_object():
-    user = User.objects.get_or_create(username='test',
-                                      first_name='first_name',
-                                      last_name='last_name',
-                                      email='test@test.com')[0]
-    user.set_password('testuser')
-    user.save()
-    return user
+	user = User.objects.get_or_create(username='test',
+									  first_name='first_name',
+									  last_name='last_name',
+									  email='test@test.com')[0]
+	user.set_password('testuser')
+	user.save()
+	return user
 
 def create_super_user_object():
-    return User.objects.create_superuser('admin', 'admin@admin.com', 'admin')
+	return User.objects.create_superuser('admin', 'admin@admin.com', 'admin')
 
 def get_template(path_to_template):
-    f = open(path_to_template, 'r')
-    template_str = ""
+	f = open(path_to_template, 'r')
+	template_str = ""
 
-    for line in f:
-        template_str = f"{template_str}{line}"
+	for line in f:
+		template_str = f"{template_str}{line}"
 
-    f.close()
-    return template_str
+	f.close()
+	return template_str
 
 
 ############################################# Set Up ###########################################################
@@ -67,8 +69,6 @@ class SetUpTests(TestCase):
 		module_exists = os.path.isfile(os.path.join(self.forum_app_dir, 'urls.py'))
 		self.assertTrue(module_exists, f"{HEADER}The forum app's urls.py module is missing.{FOOTER}")
 		
-
-
 ############################################# Display hacks #########################################################
 
 class HomePage(TestCase):
@@ -432,7 +432,6 @@ class HackP(TestCase):
 		lookup_string = 'The specified hack does not exist.'
 		self.assertIn(lookup_string, response.content.decode(), r"{HEADER}The expected message when attempting to access a non-existent hack was not found.{FOOTER}")
 	
-
 class AccountInfo(TestCase):
 
 	def setUp(self):
@@ -515,8 +514,226 @@ class AccountInfo(TestCase):
 	
 ############################################# Forms ###########################################################
 
+#testing for forms is inaccissible due to logic partly in views
+
+class CategoryFormClass(TestCase):
+	def test_form_exists(self):
+		project_path = os.getcwd()
+		forum_app_path = os.path.join(project_path, 'forum')
+		forms_module_path = os.path.join(forum_app_path, 'forms.py')
+		self.assertTrue(os.path.exists(forms_module_path), f"{FAILURE_HEADER}Couldn't find forms.py module.{FAILURE_FOOTER}")
+
+	def test_category_form_class(self):
+		import forum.forms
+		self.assertTrue('CategoryForm' in dir(forum.forms), f"{FAILURE_HEADER}The class CategoryForm could not found in forum's forms.py. {FAILURE_FOOTER}")
+
+		from forum.forms import CategoryForm
+		category_form = CategoryForm()
+
+		self.assertEqual(type(category_form.__dict__['instance']), Category, f"{FAILURE_HEADER}The CategoryForm does not link to the Category model.{FAILURE_FOOTER}")
+
+		fields = category_form.fields
+
+		expected_fields = {
+			'categoryName': django_fields.CharField,
+			'description': django_fields.CharField,
+			'slug': django_fields.CharField,
+		}
+
+		for expected_field_name in expected_fields:
+			expected_field = expected_fields[expected_field_name]
+
+			self.assertTrue(expected_field_name in fields.keys(), f"{FAILURE_HEADER}The field '{expected_field_name}' was not found in your CategoryForm implementation.{FAILURE_FOOTER}")
+			self.assertEqual(expected_field, type(fields[expected_field_name]), f"{FAILURE_HEADER}The field '{expected_field_name}' in CategoryForm was not of the expected type '{type(fields[expected_field_name])}'.{FAILURE_FOOTER}")
 
 
+	def test_add_category_url_mapping(self):
+		try:
+			resolved_name = resolve('/forum/all_categories/create_category/').view_name
+		except:
+			resolved_name = ''
+		
+		self.assertEqual(resolved_name, 'forum:create_category', f"{FAILURE_HEADER}The lookup of URL '/forum/create_category/' didn't return a mapping name of 'forum:create_category'.{FAILURE_FOOTER}")
+	
+	def test_for_link(self):
+		template_str = get_template(os.path.join(settings.TEMPLATE_DIR, 'forum', 'all_categories.html'))
+
+		look_for = [
+			 '<a href="{% url \'forum:create_category\' %}" id="create_category">'
+		]
+		
+		for lookup in look_for:
+			self.assertTrue(lookup in template_str, f"{HEADER}In create_category.html, we couldn't find the hyperlink '{lookup}'. {FOOTER}")
+
+	def test_for_content(self):
+		template_str = get_template(os.path.join(settings.TEMPLATE_DIR, 'forum', 'create_category.html'))
+
+		look_for = [
+			 '<h1>Create a New Hacks.R.Us Category</h1>',
+			 '<input type="text" name="categoryName" value="" size="50"/>',
+			 '<input type="text" name="description" value="" size="50"/>',
+			 '<input type="submit" value="Submit" />',
+			 'action="{% url \'forum:create_category\'  %}"'
+		]
+		
+		for lookup in look_for:
+			self.assertTrue(lookup in template_str, f"{HEADER}In create_category.html, we couldn't find the hyperlink '{lookup}'. {FOOTER}")
+
+	def test_add_category_functionality(self):
+		populate()
+	
+		ppost = self.client.post(reverse('forum:create_category'),{'categoryName': 'text', 'description':'description', 'shortDescription':'shortDescription'})
+		
+		self.assertEqual(ppost.status_code, 200, f"{FAILURE_HEADER}Error when adding new category, {FAILURE_FOOTER}")
+
+class HackFormClass(TestCase):
+	def test_form_exists(self):
+		project_path = os.getcwd()
+		forum_app_path = os.path.join(project_path, 'forum')
+		forms_module_path = os.path.join(forum_app_path, 'forms.py')
+		self.assertTrue(os.path.exists(forms_module_path), f"{FAILURE_HEADER}Couldn't find forms.py module.{FAILURE_FOOTER}")
+
+	def test_hack_form_class(self):
+		import forum.forms
+		self.assertTrue('HackForm' in dir(forum.forms), f"{FAILURE_HEADER}The class HackForm could not found in forum's forms.py. {FAILURE_FOOTER}")
+
+		from forum.forms import HackForm
+		hack_form = HackForm()
+
+		self.assertEqual(type(hack_form.__dict__['instance']), Hack, f"{FAILURE_HEADER}The CategoryForm does not link to the Hack model.{FAILURE_FOOTER}")
+
+		fields = hack_form.fields
+
+		expected_fields = {
+			'name' : django_fields.CharField,
+			'shortDescription' : django_fields.CharField,
+			'description' : django_fields.CharField,
+			'image' : django_fields.ImageField,
+			'dateTimeCreated' : django_fields.DateTimeField,
+			'slug' : django_fields.SlugField,
+		}
+
+		for expected_field_name in expected_fields:
+			expected_field = expected_fields[expected_field_name]
+
+			self.assertTrue(expected_field_name in fields.keys(), f"{FAILURE_HEADER}The field '{expected_field_name}' was not found in your HackForm implementation.{FAILURE_FOOTER}")
+			self.assertEqual(expected_field, type(fields[expected_field_name]), f"{FAILURE_HEADER}The field '{expected_field_name}' in HackForm was not of the expected type '{type(fields[expected_field_name])}'.{FAILURE_FOOTER}")
+
+
+	def test_add_hack_url_mapping(self):
+		try:
+			resolved_name = resolve('/forum/all_categories/gaming/add_hack/').view_name
+		except:
+			resolved_name = ''
+		
+		self.assertEqual(resolved_name, 'forum:add_hack', f"{FAILURE_HEADER}The lookup of URL '/forum/add_hack/' didn't return a mapping name of 'forum:add_hack'.{FAILURE_FOOTER}")
+	
+	def test_for_link(self):
+		template_str = get_template(os.path.join(settings.TEMPLATE_DIR, 'forum', 'category.html'))
+
+		look_for = [
+			 '<a href="{% url \'forum:add_hack\' category.slug %}" id="addhack">'
+		]
+		
+		for lookup in look_for:
+			self.assertTrue(lookup in template_str, f"{HEADER}In add_hack.html, we couldn't find the hyperlink '{lookup}'. {FOOTER}")
+
+	def test_for_content(self):
+		template_str = get_template(os.path.join(settings.TEMPLATE_DIR, 'forum', 'add_hack.html'))
+
+		look_for = [
+			 '<h1>Create a new hack for {{context.category.categoryName}} </h1>',
+			 '<label for="name"><b>Hack Name: </b></label>',
+			 '<label for="shortDescription"><b>Short description </b></label>',
+			 '<label for="description"><b>Describe the hack: </b></label>',
+			 '<label for="image"><b>Add an image: </b></label>',
+			 '<input type="submit" value="Submit" />',
+			 '{% url \'forum:add_hack\' context.category.slug  %}'
+		]
+		
+		for lookup in look_for:
+			self.assertTrue(lookup in template_str, f"{HEADER}In add_hack.html, we couldn't find the hyperlink '{lookup}'. {FOOTER}")
+
+	def test_add_hack_functionality(self):
+		populate()
+		
+		category = Category.objects.get_or_create(
+		categoryName='clothing', 
+		description = 'dec',)[0]
+		
+		ppost = self.client.post('/forum/all_categories/clothing/add_hack/',{'name': 'testName', 'description':'test description', 'shortDescription':'short test'})
+		
+		#302 due to link changing
+		self.assertEqual(ppost.status_code, 302, f"{FAILURE_HEADER}Error when adding new category, {FAILURE_FOOTER}")
+			
+
+class CommentFormClass(TestCase):
+	def test_form_exists(self):
+		project_path = os.getcwd()
+		forum_app_path = os.path.join(project_path, 'forum')
+		forms_module_path = os.path.join(forum_app_path, 'forms.py')
+		self.assertTrue(os.path.exists(forms_module_path), f"{FAILURE_HEADER}Couldn't find forms.py module.{FAILURE_FOOTER}")
+
+	def test_comment_form_class(self):
+		import forum.forms
+		self.assertTrue('CommentForm' in dir(forum.forms), f"{FAILURE_HEADER}The class CommentForm could not found in forum's forms.py. {FAILURE_FOOTER}")
+
+		from forum.forms import CommentForm
+		comment_form = CommentForm()
+
+		self.assertEqual(type(comment_form.__dict__['instance']), Comment, f"{FAILURE_HEADER}The CategoryForm does not link to the Comment model.{FAILURE_FOOTER}")
+
+		fields = comment_form.fields
+
+		expected_fields = {
+			'text' : django_fields.CharField,
+			'dateTimeCreated' : django_fields.DateTimeField,
+		}
+
+		for expected_field_name in expected_fields:
+			expected_field = expected_fields[expected_field_name]
+
+			self.assertTrue(expected_field_name in fields.keys(), f"{FAILURE_HEADER}The field '{expected_field_name}' was not found in your CommentForm implementation.{FAILURE_FOOTER}")
+			self.assertEqual(expected_field, type(fields[expected_field_name]), f"{FAILURE_HEADER}The field '{expected_field_name}' in CommentForm was not of the expected type '{type(fields[expected_field_name])}'.{FAILURE_FOOTER}")
+
+
+	def test_add_comment_url_mapping(self):
+		try:
+			resolved_name = resolve('/forum/water/add_comment/').view_name
+		except:
+			resolved_name = ''
+		
+		self.assertEqual(resolved_name, 'forum:add_comment', f"{FAILURE_HEADER}The lookup of URL '/forum/add_comment/' didn't return a mapping name of 'forum:add_comment'.{FAILURE_FOOTER}")
+	
+	def test_for_link(self):
+		template_str = get_template(os.path.join(settings.TEMPLATE_DIR, 'forum', 'hack.html'))
+
+		look_for = [
+			 '<form id="add_comment" method="post" action="{% url \'forum:add_comment\' hack.hackID %}">'
+		]
+		
+		for lookup in look_for:
+			self.assertTrue(lookup in template_str, f"{HEADER}In hack.html, we couldn't find the hyperlink '{lookup}'. {FOOTER}")
+
+	def test_for_content(self):
+		template_str = get_template(os.path.join(settings.TEMPLATE_DIR, 'forum', 'hack.html'))
+
+		look_for = [
+			 ' <textarea name="text" id="new_comment"></textarea><br />',
+			 ' <input type="button" id="checkComment" value="Submit" />',
+			 ' <input type="submit" style="visibility: hidden" id="submitButton" value="Submit" />',
+		]
+		
+		for lookup in look_for:
+			self.assertTrue(lookup in template_str, f"{HEADER}In add_comment.html, we couldn't find the hyperlink '{lookup}'. {FOOTER}")
+
+	def test_add_comment_functionality(self):
+		populate()
+		
+		ppost = self.client.post('/forum/water/add_comment/',{'text': 'texting'})
+		
+		#302 due to link changing
+		self.assertEqual(ppost.status_code, 302, f"{FAILURE_HEADER}Error when adding new category, {FAILURE_FOOTER}")		
 ############################################# Populate ###########################################################
 
 
