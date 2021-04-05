@@ -62,7 +62,7 @@ db.sqlite3
 db.sqlite3-journal
 forum/migrations/
 media/hackImages/*
-!media/hackImages/defalt.jpg
+!media/hackImages/placeHolder.txt
 
 # Flask stuff:
 instance/
