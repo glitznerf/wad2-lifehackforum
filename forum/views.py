@@ -108,6 +108,7 @@ def hack(request,  hack_hack_slug, category_categoryName_slug = None):
 
 	except Hack.DoesNotExist:
 		context_dict['hack'] = None
+		context_dict['comments'] = None
 	return render(request, 'forum/hack.html', context=context_dict)
 
 @login_required
@@ -156,7 +157,7 @@ def account_info(request, user_id_slug):
 
 	userID =request.user.get_username()
 	users = User.objects.filter(username=user_id_slug)
-	#pass verified to see if add category button is accessible
+	#pass verified to see if already verified
 	verified = UserAccount.objects.filter(user__in=users, verified=True)
 	context_dict['verified'] = verified
 
