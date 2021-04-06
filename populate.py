@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 
 
 def populate():
+    #list of dictionaries containing the data for 5 users
     userInfo = [
          {'user': 'Amanda',
           'email': 'Amanda99@gmail.com',
@@ -35,11 +36,13 @@ def populate():
          'email': 'davidf99@gmail.com',
           'password': 'notMyPass420',
           'verified': True}]
+          
+    #create the  user accounts form the userInfo and store them in a list
     userAccounts = []
     for info in userInfo:
         userAccounts.append(AddUserAccount(info['user'], info['email'], info['password'], info['verified']))
 
-
+    #define the data for the categories including the relivent userAccounts
     categoryInfo = [
           {'categoryName': 'Gaming',
            'user': userAccounts[0],
@@ -56,11 +59,14 @@ def populate():
           {'categoryName': 'Cooking',
            'user': userAccounts[4],
            'description': 'Hacks related to food and cooking.'}]
+           
+    #create the categories from the categoryInfo
     categories = []
     for info in categoryInfo:
         category = AddCategory(info['categoryName'], info['user'], info['description'])
         categories.append(category)
-    
+        
+    #define the data for the 25 unique hacks including the relivent userAccounts and categories 
     hackInfo = [
     [     
          {
@@ -251,8 +257,11 @@ def populate():
     ]]
     for i in range(len(categories)):
         for info in hackInfo[i]:
+            #add the hacks form the hackInfo
             hack = AddHack(info['name'], info['description'], info['shortDescription'],
                         info['likes'], info['user'], info['category'])
+            
+            #define the comments for each of the hacks
             comments = [
                 {'hack': hack,
                  'user': userAccounts[0],
@@ -270,14 +279,14 @@ def populate():
                  'user': userAccounts[4],
                  'text': 'Thats so cool!'}
                 ]
-                
+            #create the relivent comments
             for comment in comments:
                 AddComment(comment['hack'], comment['user'], comment['text'])
 
 
 
 
-
+#takes userName, email, pword, verified and creates the relivent userAccount 
 def AddUserAccount(userName, email, pword, verified):
     user=User.objects.create_user(userName, email=email, password=pword)
     user.is_superuser=True
@@ -289,7 +298,7 @@ def AddUserAccount(userName, email, pword, verified):
     u.save()
     return u
 
-
+#takes categoryName, user, description and creates the relivent category 
 def AddCategory(categoryName, user, description):
     cat = Category.objects.get_or_create(categoryName=categoryName, user=user, description=description)[0]
     cat.categoryName = categoryName
@@ -298,6 +307,8 @@ def AddCategory(categoryName, user, description):
     cat.save()
     return cat
 
+
+#takes name, description, shortDescription, likes, user, category and creates the relivent hack, also assigned the hack the relivent image from the populateImages directory in media
 def AddHack(name, description, shortDescription, likes, user, category):
     h = Hack.objects.get_or_create(name=name, description=description, shortDescription=shortDescription,
                                    likes=likes, user=user, categoryName=category)[0]
@@ -308,10 +319,12 @@ def AddHack(name, description, shortDescription, likes, user, category):
     h.user=user
     h.categoryName=category
     h.save()
+    #save the relivent image to the hack
     imageName = h.slug + '.jpg'
     h.image.save(imageName, File(open('media/populateImages/'+'POPULATE-FILE ' + imageName, 'rb')))
     return h
 
+#takes hack, user, text and creates the relivent comment 
 def AddComment(hack, user, text):
     com = Comment.objects.get_or_create(hackID=hack, user=user, text=text)[0]
     com.hackID = hack
@@ -321,7 +334,7 @@ def AddComment(hack, user, text):
     return com
 
 
-
+#main method
 if __name__ == '__main__':
     print('Starting population script...')
     populate()
