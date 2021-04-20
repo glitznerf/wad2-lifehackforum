@@ -13,9 +13,9 @@ path('sign_in/' ,views.sign_in, name = 'sign_in'),
 path('account_info/<slug:user_id_slug>/',views.account_info, name='account_info'),
 
 #category pages
-path('all_categories/<slug:category_categoryName_slug>/', views.category, name = 'category'),
 path('all_categories/', views.all_categories, name = 'all_categories'),
-path('all_categories/create_category', views.create_category, name = 'create_category'),
+path('all_categories/create_category/', views.create_category, name = 'create_category'),
+path('all_categories/<slug:category_categoryName_slug>/', views.category, name = 'category'),
 
 #hack pages
 path('all_categories/<slug:category_categoryName_slug>/add_hack/' ,views.add_hack, name = 'add_hack'),
