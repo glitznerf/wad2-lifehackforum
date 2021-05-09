@@ -3,6 +3,7 @@ Team: 14B \
 Web Application Development Team Project: A Lifehack Forum \
 Course link: https://www.gla.ac.uk/coursecatalogue/course/?code=COMPSCI2021 \
 Status: Completed
+Technologies: Django, Python, HTML, CSS, JavaScript
 
 ## Design Specifications
 Our web application is a blog-style site where users can view and post useful lifehacks in a variety of different categories. The site features a ranking feature for these lifehacks which allow for the most popular lifehacks and categories to appear at the top of the page.
