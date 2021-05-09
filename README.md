@@ -9,7 +9,7 @@ Our web application is a blog-style site where users can view and post useful li
 
 ## Get Started
 Python requirements:
-- Set up Python (>=3.5) virtual environment 
+- Set up Python (>=3.5) virtual environment
 - Install requirements
 
 Set up once:
@@ -21,10 +21,19 @@ Then you are set to run the server:
 - Run "python manage.py -runserver" to start the server
 - Access the website at http://127.0.0.1:8000/
 
+## Snapshots
+Homepage:
+<img src="static/images/homepage.JPG" alt="Homepage" />
+All Categories Page:
+<img src="static/images/all_categories.JPG" alt="All Categories" />
+A Lifehack:
+<img src="static/images/hack.JPG" alt="Lifehack" />
+
+
 ## System Design
-System Architecture Diagram: 
+System Architecture Diagram:
 <img src="static/images/systemarchitecture.jpg" alt="System Architecture Diagram" />
 Site Map:
 <img src="static/images/sitemap.JPG" alt="Sitemap" />
-Entity-Relationsip Diagram in Compressed-Chen Notation: 
+Entity-Relationsip Diagram in Compressed-Chen Notation:
 <img src="static/images/ERDiagram.JPG" alt="ER Diagram" />
